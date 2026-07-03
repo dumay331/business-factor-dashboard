@@ -1043,6 +1043,93 @@
     justify-content: space-between;
   }
 
+  /* Region common factors overview */
+  .region-common {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 14px var(--space-lg);
+    background: rgba(15, 98, 254, 0.04);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .region-common__label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--seed-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .region-common__items {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .region-common__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    cursor: default;
+    position: relative;
+  }
+
+  .region-common__item:hover {
+    border-color: var(--seed-primary);
+    box-shadow: 0 2px 8px rgba(15, 98, 254, 0.12);
+  }
+
+  .region-common__item-rank {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--color-text-inverse);
+    background: var(--seed-primary);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .region-common__item-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .region-common__item-score {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--seed-primary);
+    padding: 3px 8px;
+    background: rgba(15, 98, 254, 0.08);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .region-common__item-count {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
   .region-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -1319,6 +1406,7 @@
         <div class="chart-panel__subtitle">各区域最重要且紧迫的 Top 10 因素（加权总分排序）</div>
       </div>
     </div>
+    <div class="region-common" id="region-common"></div>
     <div class="region-grid" id="region-grid"></div>
   </section>
 
@@ -1496,12 +1584,19 @@ REGIONS.forEach(function(name, ri) {
 
 function renderRegionComparison() {
   var grid = document.getElementById('region-grid');
+  var commonEl = document.getElementById('region-common');
   var activeKeys = [];
   if (activeRoles.region) activeKeys.push('region');
   if (activeRoles.investor) activeKeys.push('investor');
   if (activeRoles.hq) activeKeys.push('hq');
 
-  grid.innerHTML = REGIONS.map(function(name) {
+  // Compute each region's scored factors and top 10
+  var regionTop10 = {};
+  var factorFreq = {};
+  var factorTotalSum = {};
+  var factorTotalCount = {};
+
+  REGIONS.forEach(function(name) {
     var factors = REGION_DATA[name].map(function(f) {
       var impVals = activeKeys.map(function(k) { return f.imp[k]; });
       var urgVals = activeKeys.map(function(k) { return f.urg[k]; });
@@ -1517,6 +1612,45 @@ function renderRegionComparison() {
     });
     factors.sort(function(a, b) { return b.total - a.total; });
     var top10 = factors.slice(0, 10);
+    regionTop10[name] = top10;
+
+    // Count frequency and accumulate totals for common factors
+    top10.forEach(function(f) {
+      factorFreq[f.factor] = (factorFreq[f.factor] || 0) + 1;
+      factorTotalSum[f.factor] = (factorTotalSum[f.factor] || 0) + f.total;
+      factorTotalCount[f.factor] = (factorTotalCount[f.factor] || 0) + 1;
+    });
+  });
+
+  // Sort by frequency desc, then by avg total desc
+  var commonFactors = Object.keys(factorFreq).map(function(factor) {
+    return {
+      factor: factor,
+      freq: factorFreq[factor],
+      avgTotal: factorTotalSum[factor] / factorTotalCount[factor]
+    };
+  });
+  commonFactors.sort(function(a, b) {
+    return b.freq - a.freq || b.avgTotal - a.avgTotal;
+  });
+  var top5Common = commonFactors.slice(0, 5);
+
+  // Render common factors overview
+  commonEl.innerHTML = '<span class="region-common__label">跨区域共性因素 Top 5</span>' +
+    '<div class="region-common__items">' +
+    top5Common.map(function(f, i) {
+      return '<div class="region-common__item">' +
+        '<span class="region-common__item-rank">' + (i + 1) + '</span>' +
+        '<span class="region-common__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
+        '<span class="region-common__item-score">' + f.avgTotal.toFixed(1) + '</span>' +
+        '<span class="region-common__item-count">' + f.freq + '/10 区域</span>' +
+        '</div>';
+    }).join('') +
+    '</div>';
+
+  // Render region grid
+  grid.innerHTML = REGIONS.map(function(name) {
+    var top10 = regionTop10[name];
     var rows = top10.map(function(f, rank) {
       return '<div class="region-factor">' +
         '<span class="region-factor__rank' + (rank < 3 ? ' region-factor__rank--top' : '') + '">' + (rank + 1) + '</span>' +
