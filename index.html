@@ -1477,22 +1477,47 @@ REGIONS.forEach(function(name, ri) {
   REGION_DATA[name] = DATA.map(function(f, fi) {
     var impVar = (seedRand(ri * 1001 + fi * 7 + 500) - 0.5) * 1.2;
     var urgVar = (seedRand(ri * 1001 + fi * 13 + 800) - 0.5) * 1.2;
-    var imp = Math.min(5, Math.max(0.5, Math.round((avg([f.importance.region, f.importance.investor, f.importance.hq]) + impVar) * 10) / 10));
-    var urg = Math.min(5, Math.max(0.5, Math.round((avg([f.urgency.region, f.urgency.investor, f.urgency.hq]) + urgVar) * 10) / 10));
-    return { factor: f.factor, domainName: f.domainName, importance: imp, urgency: urg };
+    return {
+      factor: f.factor,
+      domainName: f.domainName,
+      imp: {
+        region: Math.min(5, Math.max(0.5, Math.round((f.importance.region + impVar) * 10) / 10)),
+        investor: Math.min(5, Math.max(0.5, Math.round((f.importance.investor + impVar) * 10) / 10)),
+        hq: Math.min(5, Math.max(0.5, Math.round((f.importance.hq + impVar) * 10) / 10))
+      },
+      urg: {
+        region: Math.min(5, Math.max(0.5, Math.round((f.urgency.region + urgVar) * 10) / 10)),
+        investor: Math.min(5, Math.max(0.5, Math.round((f.urgency.investor + urgVar) * 10) / 10)),
+        hq: Math.min(5, Math.max(0.5, Math.round((f.urgency.hq + urgVar) * 10) / 10))
+      }
+    };
   });
 });
 
 function renderRegionComparison() {
   var grid = document.getElementById('region-grid');
-  grid.innerHTML = REGIONS.map(function(name, ri) {
+  var activeKeys = [];
+  if (activeRoles.region) activeKeys.push('region');
+  if (activeRoles.investor) activeKeys.push('investor');
+  if (activeRoles.hq) activeKeys.push('hq');
+
+  grid.innerHTML = REGIONS.map(function(name) {
     var factors = REGION_DATA[name].map(function(f) {
-      return Object.assign({}, f, { total: Math.round((f.importance * 0.5 + f.urgency * 0.5) * 100) / 100 });
+      var impVals = activeKeys.map(function(k) { return f.imp[k]; });
+      var urgVals = activeKeys.map(function(k) { return f.urg[k]; });
+      var importance = impVals.length ? avg(impVals) : 0;
+      var urgency = urgVals.length ? avg(urgVals) : 0;
+      return {
+        factor: f.factor,
+        domainName: f.domainName,
+        importance: importance,
+        urgency: urgency,
+        total: Math.round((importance * 0.5 + urgency * 0.5) * 100) / 100
+      };
     });
     factors.sort(function(a, b) { return b.total - a.total; });
     var top10 = factors.slice(0, 10);
     var rows = top10.map(function(f, rank) {
-      var shortDomain = f.domainName.replace(/管理$|与运营$|与体验$|与数字化$/, '');
       return '<div class="region-factor">' +
         '<span class="region-factor__rank' + (rank < 3 ? ' region-factor__rank--top' : '') + '">' + (rank + 1) + '</span>' +
         '<span class="region-factor__name" title="' + f.factor + '">' + f.factor + '</span>' +
