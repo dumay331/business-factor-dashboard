@@ -1080,9 +1080,16 @@
   }
 
   .quadrant-overview__item-name {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
     color: var(--color-text-primary);
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
