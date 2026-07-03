@@ -843,6 +843,70 @@
     font-size: var(--text-xs);
     white-space: nowrap;
     flex-shrink: 0;
+    position: relative;
+    cursor: default;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .quadrant-overview__item:hover {
+    border-color: var(--color-accent-purple);
+    box-shadow: 0 2px 8px rgba(138, 63, 252, 0.12);
+  }
+
+  .quadrant-overview__tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gray-90);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    pointer-events: none;
+  }
+
+  .quadrant-overview__tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: var(--color-gray-90);
+  }
+
+  .quadrant-overview__item:hover .quadrant-overview__tooltip {
+    display: block;
+  }
+
+  .quadrant-overview__tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .quadrant-overview__tooltip-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .quadrant-overview__tooltip-role {
+    font-weight: 500;
+    min-width: 42px;
+  }
+
+  .quadrant-overview__tooltip-val {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   .quadrant-overview__item-name {
@@ -2047,25 +2111,42 @@ function renderQuadrantMatrix() {
 
   // Divergence overview: top 5 most disputed factors from "重要且紧迫" (Q1)
   function roleWeightedTotal(f) {
+    var region = f.importance.region * 0.5 + f.urgency.region * 0.5;
+    var investor = f.importance.investor * 0.5 + f.urgency.investor * 0.5;
+    var hq = f.importance.hq * 0.5 + f.urgency.hq * 0.5;
     var vals = [];
-    if (activeRoles.region) vals.push(f.importance.region * 0.5 + f.urgency.region * 0.5);
-    if (activeRoles.investor) vals.push(f.importance.investor * 0.5 + f.urgency.investor * 0.5);
-    if (activeRoles.hq) vals.push(f.importance.hq * 0.5 + f.urgency.hq * 0.5);
-    return { vals, div: vals.length > 1 ? stdDev(vals) : 0 };
+    if (activeRoles.region) vals.push(region);
+    if (activeRoles.investor) vals.push(investor);
+    if (activeRoles.hq) vals.push(hq);
+    return { region: region, investor: investor, hq: hq, div: vals.length > 1 ? stdDev(vals) : 0 };
   }
   var q1WithDiv = categories.q1.items.map(function(item) {
     var rw = roleWeightedTotal(item);
-    return Object.assign({}, item, { diverge: rw.div });
+    return Object.assign({}, item, { diverge: rw.div, rwRegion: rw.region, rwInvestor: rw.investor, rwHq: rw.hq });
   });
   q1WithDiv.sort(function(a, b) { return b.diverge - a.diverge; });
   var top5Div = q1WithDiv.slice(0, 5);
+  var roleColors = { region: '#0F62FE', investor: '#24A148', hq: '#EB6200' };
+  var roleNames = { region: '区域', investor: '投资人', hq: '总部' };
   var overviewEl = document.getElementById('quadrant-overview');
   overviewEl.innerHTML = '<span class="quadrant-overview__label">重要且紧迫 · 角色分歧 Top 5</span>' +
     '<div class="quadrant-overview__items">' +
     top5Div.map(function(f) {
+      var tooltipRows = [
+        { key: 'region', score: f.rwRegion },
+        { key: 'investor', score: f.rwInvestor },
+        { key: 'hq', score: f.rwHq }
+      ].map(function(r) {
+        return '<div class="quadrant-overview__tooltip-row">' +
+          '<span class="quadrant-overview__tooltip-dot" style="background:' + roleColors[r.key] + '"></span>' +
+          '<span class="quadrant-overview__tooltip-role">' + roleNames[r.key] + '</span>' +
+          '<span class="quadrant-overview__tooltip-val">' + r.score.toFixed(2) + '</span>' +
+        '</div>';
+      }).join('');
       return '<div class="quadrant-overview__item">' +
         '<span class="quadrant-overview__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
         '<span class="quadrant-overview__item-score">' + f.diverge.toFixed(2) + '</span>' +
+        '<div class="quadrant-overview__tooltip">' + tooltipRows + '</div>' +
         '</div>';
     }).join('') +
     '</div>';
