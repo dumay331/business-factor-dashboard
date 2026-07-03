@@ -372,7 +372,7 @@
   /* ===== SUMMARY CARDS ===== */
   .summary-cards {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: var(--space-md);
     margin-bottom: var(--space-lg);
   }
@@ -389,11 +389,11 @@
   }
 
   .summary-card__label {
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 6px;
     flex-shrink: 0;
   }
@@ -1441,10 +1441,6 @@
       <div class="summary-card__label">角色分歧最大</div>
       <div class="summary-card__list" id="top-diverge-list"></div>
     </div>
-    <div class="summary-card summary-card--blindspot">
-      <div class="summary-card__label">战略盲区</div>
-      <div class="summary-card__list" id="blindspot-list"></div>
-    </div>
     <div class="summary-card summary-card--consensus">
       <div class="summary-card__label">三方共识焦点</div>
       <div class="summary-card__list" id="consensus-list"></div>
@@ -1894,13 +1890,6 @@ function updateSummaryCards() {
   var sortedDiv = DATA.slice().sort(function(a, b) { return getOverallDiverge(b) - getOverallDiverge(a); });
   renderList('top-diverge-list', sortedDiv.slice(0, 3).map(function(f) {
     return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
-  }));
-
-  // Strategic blind spots: top 3 factors with high importance but low urgency
-  var blindspots = DATA.filter(function(f) { return getAvgImportance(f) >= 3.0 && getAvgUrgency(f) < 2.5; });
-  blindspots.sort(function(a, b) { return getAvgImportance(b) - getAvgImportance(a); });
-  renderList('blindspot-list', blindspots.slice(0, 3).map(function(f) {
-    return { name: f.factor, score: '重' + getAvgImportance(f).toFixed(1) + ' / 紧' + getAvgUrgency(f).toFixed(1) };
   }));
 
   // Top 3 consensus (lowest divergence)
