@@ -854,11 +854,7 @@
   }
 
   .quadrant-overview__tooltip {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
     background: var(--color-gray-90);
     color: var(--color-text-inverse);
     border-radius: var(--radius-md);
@@ -866,7 +862,7 @@
     font-size: 12px;
     line-height: 1.7;
     white-space: nowrap;
-    z-index: 100;
+    z-index: 9999;
     box-shadow: 0 4px 16px rgba(0,0,0,0.18);
     pointer-events: none;
   }
@@ -881,8 +877,11 @@
     border-bottom-color: var(--color-gray-90);
   }
 
-  .quadrant-overview__item:hover .quadrant-overview__tooltip {
-    display: block;
+  .quadrant-overview__tooltip--above::before {
+    bottom: auto;
+    top: 100%;
+    border-bottom-color: transparent;
+    border-top-color: var(--color-gray-90);
   }
 
   .quadrant-overview__tooltip-row {
@@ -2132,24 +2131,51 @@ function renderQuadrantMatrix() {
   overviewEl.innerHTML = '<span class="quadrant-overview__label">重要且紧迫 · 角色分歧 Top 5</span>' +
     '<div class="quadrant-overview__items">' +
     top5Div.map(function(f) {
-      var tooltipRows = [
-        { key: 'region', score: f.rwRegion },
-        { key: 'investor', score: f.rwInvestor },
-        { key: 'hq', score: f.rwHq }
-      ].map(function(r) {
-        return '<div class="quadrant-overview__tooltip-row">' +
-          '<span class="quadrant-overview__tooltip-dot" style="background:' + roleColors[r.key] + '"></span>' +
-          '<span class="quadrant-overview__tooltip-role">' + roleNames[r.key] + '</span>' +
-          '<span class="quadrant-overview__tooltip-val">' + r.score.toFixed(2) + '</span>' +
-        '</div>';
-      }).join('');
-      return '<div class="quadrant-overview__item">' +
+      return '<div class="quadrant-overview__item" data-region="' + f.rwRegion.toFixed(2) + '" data-investor="' + f.rwInvestor.toFixed(2) + '" data-hq="' + f.rwHq.toFixed(2) + '">' +
         '<span class="quadrant-overview__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
         '<span class="quadrant-overview__item-score">' + f.diverge.toFixed(2) + '</span>' +
-        '<div class="quadrant-overview__tooltip">' + tooltipRows + '</div>' +
         '</div>';
     }).join('') +
     '</div>';
+
+  // Tooltip event handlers
+  var ovTooltip = null;
+  overviewEl.querySelectorAll('.quadrant-overview__item').forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      var rect = el.getBoundingClientRect();
+      var rows = [
+        { key: 'region', score: el.dataset.region },
+        { key: 'investor', score: el.dataset.investor },
+        { key: 'hq', score: el.dataset.hq }
+      ];
+      var html = rows.map(function(r) {
+        return '<div class="quadrant-overview__tooltip-row">' +
+          '<span class="quadrant-overview__tooltip-dot" style="background:' + roleColors[r.key] + '"></span>' +
+          '<span class="quadrant-overview__tooltip-role">' + roleNames[r.key] + '</span>' +
+          '<span class="quadrant-overview__tooltip-val">' + r.score + '</span>' +
+        '</div>';
+      }).join('');
+      ovTooltip = document.createElement('div');
+      ovTooltip.className = 'quadrant-overview__tooltip';
+      ovTooltip.innerHTML = html;
+      document.body.appendChild(ovTooltip);
+      var tw = ovTooltip.offsetWidth;
+      var th = ovTooltip.offsetHeight;
+      var left = rect.left + rect.width / 2 - tw / 2;
+      var top = rect.bottom + 8;
+      if (left < 4) left = 4;
+      if (left + tw > window.innerWidth - 4) left = window.innerWidth - tw - 4;
+      if (top + th > window.innerHeight - 4) {
+        top = rect.top - th - 8;
+        ovTooltip.classList.add('quadrant-overview__tooltip--above');
+      }
+      ovTooltip.style.left = left + 'px';
+      ovTooltip.style.top = top + 'px';
+    });
+    el.addEventListener('mouseleave', function() {
+      if (ovTooltip) { ovTooltip.remove(); ovTooltip = null; }
+    });
+  });
 
   // Render columns
   const catOrder = ['q1', 'q2', 'q3', 'q4'];
