@@ -806,6 +806,63 @@
     font-weight: 600;
   }
 
+  /* Quadrant divergence overview */
+  .quadrant-overview {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 12px var(--space-lg);
+    background: rgba(138, 63, 252, 0.04);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .quadrant-overview__label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-accent-purple);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .quadrant-overview__items {
+    display: flex;
+    gap: var(--space-sm);
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .quadrant-overview__item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .quadrant-overview__item-name {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quadrant-overview__item-score {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--color-accent-purple);
+    padding: 1px 5px;
+    background: rgba(138, 63, 252, 0.08);
+    border-radius: var(--radius-sm);
+  }
+
   .panoramic-section {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -1167,6 +1224,7 @@
         <div class="chart-panel__subtitle">按50%权重加权总分排序（满分5分）</div>
       </div>
     </div>
+    <div class="quadrant-overview" id="quadrant-overview"></div>
     <div class="quadrant-grid" id="quadrant-grid" data-component="Quadrant Grid" data-od-id="quadrant-grid"></div>
   </section>
 
@@ -1986,6 +2044,31 @@ function renderQuadrantMatrix() {
   Object.values(categories).forEach(cat => {
     cat.items.sort((a, b) => b.total - a.total);
   });
+
+  // Divergence overview: top 5 most disputed factors from "重要且紧迫" (Q1)
+  function roleWeightedTotal(f) {
+    var vals = [];
+    if (activeRoles.region) vals.push(f.importance.region * 0.5 + f.urgency.region * 0.5);
+    if (activeRoles.investor) vals.push(f.importance.investor * 0.5 + f.urgency.investor * 0.5);
+    if (activeRoles.hq) vals.push(f.importance.hq * 0.5 + f.urgency.hq * 0.5);
+    return { vals, div: vals.length > 1 ? stdDev(vals) : 0 };
+  }
+  var q1WithDiv = categories.q1.items.map(function(item) {
+    var rw = roleWeightedTotal(item);
+    return Object.assign({}, item, { diverge: rw.div });
+  });
+  q1WithDiv.sort(function(a, b) { return b.diverge - a.diverge; });
+  var top5Div = q1WithDiv.slice(0, 5);
+  var overviewEl = document.getElementById('quadrant-overview');
+  overviewEl.innerHTML = '<span class="quadrant-overview__label">重要且紧迫 · 角色分歧 Top 5</span>' +
+    '<div class="quadrant-overview__items">' +
+    top5Div.map(function(f) {
+      return '<div class="quadrant-overview__item">' +
+        '<span class="quadrant-overview__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
+        '<span class="quadrant-overview__item-score">' + f.diverge.toFixed(2) + '</span>' +
+        '</div>';
+    }).join('') +
+    '</div>';
 
   // Render columns
   const catOrder = ['q1', 'q2', 'q3', 'q4'];
