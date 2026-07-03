@@ -249,6 +249,126 @@
     padding: var(--space-lg);
   }
 
+  /* ===== SAMPLE SIZE BAR ===== */
+  .sample-bar {
+    display: flex;
+    align-items: stretch;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+  }
+
+  .sample-bar__label {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-lg);
+    background: var(--seed-primary);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+
+  .sample-bar__regions {
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .sample-bar__region {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    min-width: 0;
+    flex: 1;
+    border-right: 1px solid var(--color-border);
+    gap: 3px;
+  }
+
+  .sample-bar__region:last-child {
+    border-right: none;
+  }
+
+  .sample-bar__region-name {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 4px;
+  }
+
+  .sample-bar__counts {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sample-bar__count {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .sample-bar__count--region {
+    color: var(--role-region);
+  }
+
+  .sample-bar__count--investor {
+    color: var(--role-investor);
+  }
+
+  .sample-bar__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sample-bar__dot--region {
+    background: var(--role-region);
+  }
+
+  .sample-bar__dot--investor {
+    background: var(--role-investor);
+  }
+
+  .sample-bar__hq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px var(--space-lg);
+    border-left: 2px solid var(--color-border);
+    flex-shrink: 0;
+    gap: 3px;
+    background: rgba(235, 98, 0, 0.04);
+  }
+
+  .sample-bar__hq-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .sample-bar__hq-count {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--role-hq);
+  }
+
   /* ===== SUMMARY CARDS ===== */
   .summary-cards {
     display: grid;
@@ -1284,6 +1404,9 @@
 <!-- ===== MAIN ===== -->
 <main class="main-content" data-component="Main Content" data-od-id="main-content">
 
+  <!-- Sample Size Bar -->
+  <div class="sample-bar" id="sample-bar" data-component="Sample Size" data-od-id="sample-size"></div>
+
   <!-- Summary Cards -->
   <section class="summary-cards" data-component="Summary Cards" data-od-id="summary-cards">
     <div class="summary-card summary-card--accent">
@@ -1663,6 +1786,43 @@ function renderRegionComparison() {
       '<div class="region-card__list">' + rows + '</div>' +
       '</div>';
   }).join('');
+}
+
+// ===== SAMPLE SIZE DATA =====
+const SAMPLE_DATA = {
+  regions: REGIONS.map(function(name, ri) {
+    return {
+      name: name,
+      region: Math.round(15 + seedRand(ri * 200 + 1) * 20),
+      investor: Math.round(6 + seedRand(ri * 200 + 2) * 12)
+    };
+  }),
+  hq: Math.round(22 + seedRand(99) * 18)
+};
+
+function renderSampleBar() {
+  var el = document.getElementById('sample-bar');
+  var regionItems = SAMPLE_DATA.regions.map(function(r) {
+    return '<div class="sample-bar__region">' +
+      '<span class="sample-bar__region-name">' + r.name + '</span>' +
+      '<div class="sample-bar__counts">' +
+        '<span class="sample-bar__count sample-bar__count--region">' +
+          '<span class="sample-bar__dot sample-bar__dot--region"></span>' + r.region +
+        '</span>' +
+        '<span class="sample-bar__count sample-bar__count--investor">' +
+          '<span class="sample-bar__dot sample-bar__dot--investor"></span>' + r.investor +
+        '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  el.innerHTML =
+    '<div class="sample-bar__label">样本量</div>' +
+    '<div class="sample-bar__regions">' + regionItems + '</div>' +
+    '<div class="sample-bar__hq">' +
+      '<span class="sample-bar__hq-label">总部</span>' +
+      '<span class="sample-bar__hq-count">' + SAMPLE_DATA.hq + '</span>' +
+    '</div>';
 }
 
 // ===== STATE =====
@@ -2520,6 +2680,7 @@ function refreshAll() {
 
 // ===== INIT =====
 function init() {
+  renderSampleBar();
   initTableFilters();
   renderDomainTabs();
   updateSummaryCards();
