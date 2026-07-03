@@ -386,7 +386,6 @@
     min-height: 104px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
   }
 
   .summary-card__label {
@@ -395,34 +394,51 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: 500;
-    margin-bottom: var(--space-sm);
+    margin-bottom: 6px;
+    flex-shrink: 0;
   }
 
-  .summary-card__value {
-    font-size: var(--text-xl);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: var(--leading-tight);
-    color: var(--color-text-primary);
+  .summary-card__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
   }
 
-  .summary-card__meta {
-    font-size: var(--text-xs);
-    color: var(--color-text-secondary);
-    margin-top: var(--space-xs);
+  .summary-card__item {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: 5px;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
-  .summary-card__tag {
-    display: inline-block;
-    padding: 1px 8px;
-    background: var(--color-gray-10);
-    border-radius: var(--radius-sm);
+  .summary-card__item-rank {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+  }
+
+  .summary-card__item-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .summary-card__item-score {
+    font-family: var(--font-mono);
+    font-weight: 600;
     font-size: 11px;
     color: var(--color-text-secondary);
-    letter-spacing: 0.01em;
+    flex-shrink: 0;
   }
 
   .summary-card--accent {
@@ -1411,50 +1427,27 @@
   <section class="summary-cards" data-component="Summary Cards" data-od-id="summary-cards">
     <div class="summary-card summary-card--accent">
       <div class="summary-card__label">最高重要度因素</div>
-      <div class="summary-card__value" id="top-importance-name">—</div>
-      <div class="summary-card__meta">
-        <span class="summary-card__tag" id="top-importance-domain"></span>
-        <span id="top-importance-score"></span>
-      </div>
+      <div class="summary-card__list" id="top-importance-list"></div>
     </div>
     <div class="summary-card summary-card--warning">
       <div class="summary-card__label">最高紧迫度因素</div>
-      <div class="summary-card__value" id="top-urgency-name">—</div>
-      <div class="summary-card__meta">
-        <span class="summary-card__tag" id="top-urgency-domain"></span>
-        <span id="top-urgency-score"></span>
-      </div>
+      <div class="summary-card__list" id="top-urgency-list"></div>
     </div>
     <div class="summary-card summary-card--danger">
       <div class="summary-card__label">重要-紧迫差距最大</div>
-      <div class="summary-card__value" id="top-gap-name">—</div>
-      <div class="summary-card__meta">
-        <span class="summary-card__tag" id="top-gap-domain"></span>
-        <span id="top-gap-score"></span>
-      </div>
+      <div class="summary-card__list" id="top-gap-list"></div>
     </div>
     <div class="summary-card summary-card--diverge">
       <div class="summary-card__label">角色分歧最大</div>
-      <div class="summary-card__value" id="top-diverge-name">—</div>
-      <div class="summary-card__meta">
-        <span class="summary-card__tag" id="top-diverge-domain"></span>
-        <span id="top-diverge-score"></span>
-      </div>
+      <div class="summary-card__list" id="top-diverge-list"></div>
     </div>
     <div class="summary-card summary-card--blindspot">
       <div class="summary-card__label">战略盲区</div>
-      <div class="summary-card__value" id="blindspot-count">—</div>
-      <div class="summary-card__meta">
-        <span class="summary-card__tag" id="blindspot-hint">重要度高但紧迫度低</span>
-      </div>
+      <div class="summary-card__list" id="blindspot-list"></div>
     </div>
     <div class="summary-card summary-card--consensus">
       <div class="summary-card__label">三方共识焦点</div>
-      <div class="summary-card__value" id="consensus-name">—</div>
-      <div class="summary-card__meta">
-        <span class="summary-card__tag" id="consensus-domain"></span>
-        <span id="consensus-score"></span>
-      </div>
+      <div class="summary-card__list" id="consensus-list"></div>
     </div>
   </section>
 
@@ -1868,39 +1861,53 @@ function getOverallDiverge(f) {
 
 // ===== SUMMARY CARDS =====
 function updateSummaryCards() {
-  // Top importance
-  const topImp = DATA.reduce((best, f) => getAvgImportance(f) > getAvgImportance(best) ? f : best, DATA[0]);
-  document.getElementById('top-importance-name').textContent = topImp.factor;
-  document.getElementById('top-importance-domain').textContent = topImp.domainName;
-  document.getElementById('top-importance-score').textContent = '均值 ' + getAvgImportance(topImp).toFixed(1);
+  function renderList(containerId, items) {
+    var el = document.getElementById(containerId);
+    el.innerHTML = items.map(function(item, i) {
+      return '<div class="summary-card__item">' +
+        '<span class="summary-card__item-rank">' + (i + 1) + '</span>' +
+        '<span class="summary-card__item-name" title="' + item.name + '">' + item.name + '</span>' +
+        '<span class="summary-card__item-score">' + item.score + '</span>' +
+      '</div>';
+    }).join('');
+  }
 
-  // Top urgency
-  const topUrg = DATA.reduce((best, f) => getAvgUrgency(f) > getAvgUrgency(best) ? f : best, DATA[0]);
-  document.getElementById('top-urgency-name').textContent = topUrg.factor;
-  document.getElementById('top-urgency-domain').textContent = topUrg.domainName;
-  document.getElementById('top-urgency-score').textContent = '均值 ' + getAvgUrgency(topUrg).toFixed(1);
+  // Top 3 importance
+  var sortedImp = DATA.slice().sort(function(a, b) { return getAvgImportance(b) - getAvgImportance(a); });
+  renderList('top-importance-list', sortedImp.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getAvgImportance(f).toFixed(1) };
+  }));
 
-  // Top gap
-  const topGap = DATA.reduce((best, f) => getGap(f) > getGap(best) ? f : best, DATA[0]);
-  document.getElementById('top-gap-name').textContent = topGap.factor;
-  document.getElementById('top-gap-domain').textContent = topGap.domainName;
-  document.getElementById('top-gap-score').textContent = '差距 ' + getGap(topGap).toFixed(1);
+  // Top 3 urgency
+  var sortedUrg = DATA.slice().sort(function(a, b) { return getAvgUrgency(b) - getAvgUrgency(a); });
+  renderList('top-urgency-list', sortedUrg.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getAvgUrgency(f).toFixed(1) };
+  }));
 
-  // Top divergence
-  const topDiv = DATA.reduce((best, f) => getOverallDiverge(f) > getOverallDiverge(best) ? f : best, DATA[0]);
-  document.getElementById('top-diverge-name').textContent = topDiv.factor;
-  document.getElementById('top-diverge-domain').textContent = topDiv.domainName;
-  document.getElementById('top-diverge-score').textContent = '标准差 ' + getOverallDiverge(topDiv).toFixed(2);
+  // Top 3 gap
+  var sortedGap = DATA.slice().sort(function(a, b) { return getGap(b) - getGap(a); });
+  renderList('top-gap-list', sortedGap.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getGap(f).toFixed(1) };
+  }));
 
-  // Strategic blind spot: count of factors with high importance but low urgency
-  const blindspots = DATA.filter(f => getAvgImportance(f) >= 3.0 && getAvgUrgency(f) < 2.5);
-  document.getElementById('blindspot-count').textContent = blindspots.length + ' 项';
+  // Top 3 divergence
+  var sortedDiv = DATA.slice().sort(function(a, b) { return getOverallDiverge(b) - getOverallDiverge(a); });
+  renderList('top-diverge-list', sortedDiv.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
+  }));
 
-  // Three-way consensus: factor with lowest role divergence (all 3 roles agree most)
-  const consensus = DATA.reduce((best, f) => getOverallDiverge(f) < getOverallDiverge(best) ? f : best, DATA[0]);
-  document.getElementById('consensus-name').textContent = consensus.factor;
-  document.getElementById('consensus-domain').textContent = consensus.domainName;
-  document.getElementById('consensus-score').textContent = '标准差 ' + getOverallDiverge(consensus).toFixed(2);
+  // Strategic blind spots: top 3 factors with high importance but low urgency
+  var blindspots = DATA.filter(function(f) { return getAvgImportance(f) >= 3.0 && getAvgUrgency(f) < 2.5; });
+  blindspots.sort(function(a, b) { return getAvgImportance(b) - getAvgImportance(a); });
+  renderList('blindspot-list', blindspots.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: '重' + getAvgImportance(f).toFixed(1) + ' / 紧' + getAvgUrgency(f).toFixed(1) };
+  }));
+
+  // Top 3 consensus (lowest divergence)
+  var sortedCon = DATA.slice().sort(function(a, b) { return getOverallDiverge(a) - getOverallDiverge(b); });
+  renderList('consensus-list', sortedCon.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
+  }));
 }
 
 // ===== RADAR CHART =====
