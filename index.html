@@ -369,44 +369,38 @@
     color: var(--role-hq);
   }
 
-  .sample-bar__totals {
+  .sample-bar__total {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 8px var(--space-lg);
+    padding: 8px var(--space-md);
     border-left: 2px solid var(--color-border);
     flex-shrink: 0;
     gap: 3px;
     background: var(--color-gray-10);
   }
 
-  .sample-bar__totals-label {
+  .sample-bar__total-label {
     font-size: 11px;
     color: var(--color-text-muted);
     white-space: nowrap;
   }
 
-  .sample-bar__totals-counts {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .sample-bar__total-item {
+  .sample-bar__total-value {
     display: flex;
     align-items: center;
     gap: 4px;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
   }
 
-  .sample-bar__total-item--region {
+  .sample-bar__total-value--region {
     color: var(--role-region);
   }
 
-  .sample-bar__total-item--investor {
+  .sample-bar__total-value--investor {
     color: var(--role-investor);
   }
 
@@ -1167,7 +1161,7 @@
   .domain-legend {
     display: flex;
     border-top: 1px solid var(--color-border);
-    padding: 0 15px 0 50px;
+    padding: 0 15px 0 80px;
     overflow-x: auto;
   }
 
@@ -1440,14 +1434,14 @@
   <div class="site-header__controls">
     <div class="role-filter" data-component="Role Filter" data-od-id="role-filter">
       <span class="role-filter__label">角色筛选</span>
+      <button class="role-chip role-chip--active" data-role="hq" aria-pressed="true">
+        <span class="role-chip__dot"></span>总部
+      </button>
       <button class="role-chip role-chip--active" data-role="region" aria-pressed="true">
         <span class="role-chip__dot"></span>区域
       </button>
       <button class="role-chip role-chip--active" data-role="investor" aria-pressed="true">
         <span class="role-chip__dot"></span>门店
-      </button>
-      <button class="role-chip role-chip--active" data-role="hq" aria-pressed="true">
-        <span class="role-chip__dot"></span>总部
       </button>
     </div>
     <div class="dim-toggle" data-component="Dimension Toggle" data-od-id="dim-toggle">
@@ -1593,9 +1587,9 @@
             <tr>
               <th>领域</th>
               <th>因素名称</th>
+              <th style="text-align:center">总部</th>
               <th style="text-align:center">区域</th>
               <th style="text-align:center">门店</th>
-              <th style="text-align:center">总部</th>
               <th style="text-align:center">平均重要度</th>
               <th style="text-align:center">平均紧迫度</th>
               <th style="text-align:center">重要-紧迫差距</th>
@@ -1857,16 +1851,17 @@ function renderSampleBar() {
       '<span class="sample-bar__hq-label">总部</span>' +
       '<span class="sample-bar__hq-count">' + SAMPLE_DATA.hq + '</span>' +
     '</div>' +
-    '<div class="sample-bar__totals">' +
-      '<span class="sample-bar__totals-label">合计</span>' +
-      '<div class="sample-bar__totals-counts">' +
-        '<span class="sample-bar__total-item sample-bar__total-item--region">' +
-          '<span class="sample-bar__dot sample-bar__dot--region"></span>' + totalRegion +
-        '</span>' +
-        '<span class="sample-bar__total-item sample-bar__total-item--investor">' +
-          '<span class="sample-bar__dot sample-bar__dot--investor"></span>' + totalInvestor +
-        '</span>' +
-      '</div>' +
+    '<div class="sample-bar__total">' +
+      '<span class="sample-bar__total-label">区域合计</span>' +
+      '<span class="sample-bar__total-value sample-bar__total-value--region">' +
+        '<span class="sample-bar__dot sample-bar__dot--region"></span>' + totalRegion +
+      '</span>' +
+    '</div>' +
+    '<div class="sample-bar__total">' +
+      '<span class="sample-bar__total-label">门店合计</span>' +
+      '<span class="sample-bar__total-value sample-bar__total-value--investor">' +
+        '<span class="sample-bar__dot sample-bar__dot--investor"></span>' + totalInvestor +
+      '</span>' +
     '</div>';
 }
 
@@ -2072,9 +2067,9 @@ function updateComparisonChart() {
   const roleLabels = { region: '区域', investor: '门店', hq: '总部' };
   const roleColors = { region: CV.blue, investor: CV.green, hq: CV.orange };
 
+  if (activeRoles.hq) roleKeys.push('hq');
   if (activeRoles.region) roleKeys.push('region');
   if (activeRoles.investor) roleKeys.push('investor');
-  if (activeRoles.hq) roleKeys.push('hq');
 
   dims.forEach(dim => {
     const isUrgLine = isDouble && dim === 'urgency';
@@ -2531,9 +2526,9 @@ function renderQuadrantMatrix() {
     el.addEventListener('mouseenter', function() {
       var rect = el.getBoundingClientRect();
       var rows = [
+        { key: 'hq', score: el.dataset.hq },
         { key: 'region', score: el.dataset.region },
-        { key: 'investor', score: el.dataset.investor },
-        { key: 'hq', score: el.dataset.hq }
+        { key: 'investor', score: el.dataset.investor }
       ];
       var html = rows.map(function(r) {
         return '<div class="quadrant-overview__tooltip-row">' +
@@ -2636,13 +2631,13 @@ function renderTable() {
       <td><span class="domain-badge">${f.domainName}</span></td>
       <td style="font-weight:500;">${f.factor}</td>
       <td class="score-cell">
+        ${activeRoles.hq ? f.importance.hq.toFixed(1) + '<span class="score-bar score-bar--hq" style="width:' + barWidth(f.importance.hq) + 'px"></span>' : '—'}
+      </td>
+      <td class="score-cell">
         ${activeRoles.region ? f.importance.region.toFixed(1) + '<span class="score-bar score-bar--region" style="width:' + barWidth(f.importance.region) + 'px"></span>' : '—'}
       </td>
       <td class="score-cell">
         ${activeRoles.investor ? f.importance.investor.toFixed(1) + '<span class="score-bar score-bar--investor" style="width:' + barWidth(f.importance.investor) + 'px"></span>' : '—'}
-      </td>
-      <td class="score-cell">
-        ${activeRoles.hq ? f.importance.hq.toFixed(1) + '<span class="score-bar score-bar--hq" style="width:' + barWidth(f.importance.hq) + 'px"></span>' : '—'}
       </td>
       <td class="score-cell" style="font-weight:600;">${avgImp.toFixed(1)}</td>
       <td class="score-cell" style="font-weight:600;">${avgUrg.toFixed(1)}</td>
