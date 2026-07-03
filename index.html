@@ -369,6 +369,47 @@
     color: var(--role-hq);
   }
 
+  .sample-bar__totals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px var(--space-lg);
+    border-left: 2px solid var(--color-border);
+    flex-shrink: 0;
+    gap: 3px;
+    background: var(--color-gray-10);
+  }
+
+  .sample-bar__totals-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .sample-bar__totals-counts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sample-bar__total-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .sample-bar__total-item--region {
+    color: var(--role-region);
+  }
+
+  .sample-bar__total-item--investor {
+    color: var(--role-investor);
+  }
+
   /* ===== SUMMARY CARDS ===== */
   .summary-cards {
     display: grid;
@@ -1791,7 +1832,11 @@ const SAMPLE_DATA = {
 
 function renderSampleBar() {
   var el = document.getElementById('sample-bar');
+  var totalRegion = 0;
+  var totalInvestor = 0;
   var regionItems = SAMPLE_DATA.regions.map(function(r) {
+    totalRegion += r.region;
+    totalInvestor += r.investor;
     return '<div class="sample-bar__region">' +
       '<span class="sample-bar__region-name">' + r.name + '</span>' +
       '<div class="sample-bar__counts">' +
@@ -1811,6 +1856,17 @@ function renderSampleBar() {
     '<div class="sample-bar__hq">' +
       '<span class="sample-bar__hq-label">总部</span>' +
       '<span class="sample-bar__hq-count">' + SAMPLE_DATA.hq + '</span>' +
+    '</div>' +
+    '<div class="sample-bar__totals">' +
+      '<span class="sample-bar__totals-label">合计</span>' +
+      '<div class="sample-bar__totals-counts">' +
+        '<span class="sample-bar__total-item sample-bar__total-item--region">' +
+          '<span class="sample-bar__dot sample-bar__dot--region"></span>' + totalRegion +
+        '</span>' +
+        '<span class="sample-bar__total-item sample-bar__total-item--investor">' +
+          '<span class="sample-bar__dot sample-bar__dot--investor"></span>' + totalInvestor +
+        '</span>' +
+      '</div>' +
     '</div>';
 }
 
