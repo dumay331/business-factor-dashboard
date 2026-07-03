@@ -1444,7 +1444,7 @@
         <span class="role-chip__dot"></span>区域
       </button>
       <button class="role-chip role-chip--active" data-role="investor" aria-pressed="true">
-        <span class="role-chip__dot"></span>投资人
+        <span class="role-chip__dot"></span>门店
       </button>
       <button class="role-chip role-chip--active" data-role="hq" aria-pressed="true">
         <span class="role-chip__dot"></span>总部
@@ -1594,7 +1594,7 @@
               <th>领域</th>
               <th>因素名称</th>
               <th style="text-align:center">区域</th>
-              <th style="text-align:center">投资人</th>
+              <th style="text-align:center">门店</th>
               <th style="text-align:center">总部</th>
               <th style="text-align:center">平均重要度</th>
               <th style="text-align:center">平均紧迫度</th>
@@ -2069,7 +2069,7 @@ function updateComparisonChart() {
 
   const seriesData = [];
   const roleKeys = [];
-  const roleLabels = { region: '区域', investor: '投资人', hq: '总部' };
+  const roleLabels = { region: '区域', investor: '门店', hq: '总部' };
   const roleColors = { region: CV.blue, investor: CV.green, hq: CV.orange };
 
   if (activeRoles.region) roleKeys.push('region');
@@ -2513,7 +2513,7 @@ function renderQuadrantMatrix() {
   q1WithDiv.sort(function(a, b) { return b.diverge - a.diverge; });
   var top5Div = q1WithDiv.slice(0, 5);
   var roleColors = { region: '#0F62FE', investor: '#24A148', hq: '#EB6200' };
-  var roleNames = { region: '区域', investor: '投资人', hq: '总部' };
+  var roleNames = { region: '区域', investor: '门店', hq: '总部' };
   var overviewEl = document.getElementById('quadrant-overview');
   overviewEl.innerHTML = '<span class="quadrant-overview__label">重要且紧迫 · 角色分歧 Top 5</span>' +
     '<div class="quadrant-overview__items">' +
