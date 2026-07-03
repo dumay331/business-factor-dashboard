@@ -1706,21 +1706,32 @@ function updateComparisonChart() {
   if (activeRoles.hq) roleKeys.push('hq');
 
   dims.forEach(dim => {
+    const isUrgLine = isDouble && dim === 'urgency';
     roleKeys.forEach(role => {
-      seriesData.push({
+      const base = {
         name: roleLabels[role] + (isDouble ? ' - ' + dimLabels[dim] : ''),
-        type: 'bar',
-        barGap: '10%',
-        barCategoryGap: '35%',
         data: factors.map(f => f[dim][role]),
-        itemStyle: {
-          color: roleColors[role],
-          opacity: isDouble && dim === 'urgency' ? 0.55 : 1
-        },
+        itemStyle: { color: roleColors[role] },
         emphasis: {
           itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.15)' }
         }
-      });
+      };
+      if (isUrgLine) {
+        seriesData.push(Object.assign(base, {
+          type: 'line',
+          smooth: 0.3,
+          symbol: 'circle',
+          symbolSize: 7,
+          lineStyle: { width: 2.5, type: 'dashed' },
+          itemStyle: { color: roleColors[role], borderWidth: 2, borderColor: '#fff' }
+        }));
+      } else {
+        seriesData.push(Object.assign(base, {
+          type: 'bar',
+          barGap: '10%',
+          barCategoryGap: '35%'
+        }));
+      }
     });
   });
 
@@ -1732,8 +1743,12 @@ function updateComparisonChart() {
       formatter: function(params) {
         let html = '<div style="font-weight:600;margin-bottom:6px;">' + params[0].name + '</div>';
         params.forEach(p => {
+          const isLine = p.seriesName.includes('紧迫');
+          const indicator = isLine
+            ? '<span style="display:inline-block;width:14px;height:0;border-top:2.5px dashed ' + p.color + ';"></span>'
+            : '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + p.color + ';"></span>';
           html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0;">' +
-            '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + p.color + ';opacity:' + (p.seriesName.includes('紧迫') ? '0.55' : '1') + ';"></span>' +
+            indicator +
             '<span>' + p.seriesName + ':</span>' +
             '<span style="font-weight:600;margin-left:auto;">' + p.value.toFixed(1) + '</span></div>';
         });
