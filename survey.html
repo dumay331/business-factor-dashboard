@@ -936,6 +936,8 @@ var DOMAINS = [
 // ===== STATE =====
 var ratings = {};
 var domainRatings = {};
+var touchedDomainIds = {}; // { 'domainId': true } when user has touched the slider
+var touchedFactorIds = {}; // { 'domainId-fi': true } when user has touched the slider
 var supabaseClient = null;
 var totalRated = 0;
 
@@ -1133,6 +1135,10 @@ function updateDomainRating(domainId, dim, value) {
   if (!domainRatings[domainId]) domainRatings[domainId] = { imp: 3, urg: 3 };
   domainRatings[domainId][dim] = parseFloat(value);
 
+  // Mark as touched if both dimensions have been interacted with
+  var touchKey = domainId + '-' + dim;
+  if (!touchedDomainIds[touchKey]) touchedDomainIds[touchKey] = true;
+
   var prefix = dim === 'imp' ? 'dimp-val-' : 'durg-val-';
   var valEl = document.getElementById(prefix + domainId);
   if (valEl) {
@@ -1140,7 +1146,6 @@ function updateDomainRating(domainId, dim, value) {
     valEl.classList.remove('rating-group__value--default');
   }
 
-  // Remove default class from the slider that triggered this
   if (valEl) {
     var group = valEl.closest('.rating-group');
     if (group) {
@@ -1157,13 +1162,16 @@ function updateRating(key, dim, value) {
   if (!ratings[key]) ratings[key] = { imp: 3, urg: 3 };
   ratings[key][dim] = parseFloat(value);
 
+  // Mark as touched
+  var touchKey = key + '-' + dim;
+  if (!touchedFactorIds[touchKey]) touchedFactorIds[touchKey] = true;
+
   var valEl = document.getElementById(dim + '-val-' + key);
   if (valEl) {
     valEl.textContent = parseFloat(value).toFixed(1);
     valEl.classList.remove('rating-group__value--default');
   }
 
-  // Remove default class from the slider that triggered this
   if (valEl) {
     var group = valEl.closest('.rating-group');
     if (group) {
@@ -1180,11 +1188,12 @@ function updateProgress() {
   var rated = 0;
   var total = 54;
 
-  // Section 0: domain-level
+  // Section 0: domain-level (counted as rated only when both imp and urg are touched)
   var domainRated = 0;
   DOMAINS.forEach(function(domain) {
-    var dr = domainRatings[domain.id];
-    if (dr && dr.imp !== undefined && dr.urg !== undefined) {
+    var impTouched = touchedDomainIds[domain.id + '-imp'];
+    var urgTouched = touchedDomainIds[domain.id + '-urg'];
+    if (impTouched && urgTouched) {
       rated++;
       domainRated++;
     }
@@ -1197,12 +1206,14 @@ function updateProgress() {
       (dDone ? '&#10003;' : '&#8250;') + '</span>';
   }
 
-  // Sections 1-9: factor-level
+  // Sections 1-9: factor-level (counted as rated only when both imp and urg are touched)
   DOMAINS.forEach(function(domain, di) {
     var factorRated = 0;
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
-      if (ratings[key] && ratings[key].imp !== undefined && ratings[key].urg !== undefined) {
+      var impTouched = touchedFactorIds[key + '-imp'];
+      var urgTouched = touchedFactorIds[key + '-urg'];
+      if (impTouched && urgTouched) {
         rated++;
         factorRated++;
       }
