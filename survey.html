@@ -260,6 +260,35 @@
     padding: 0;
   }
 
+  /* Domain-level rating row */
+  .domain-rating-row {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 2px solid var(--color-gray-20);
+    display: grid;
+    grid-template-columns: 1fr 200px 200px;
+    gap: var(--space-md);
+    align-items: center;
+    background: #F4F7FF;
+  }
+
+  .domain-rating-row:hover {
+    background: #EEF2FF;
+  }
+
+  .domain-rating-name {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-action-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .domain-rating-name__icon {
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
   /* Factor row */
   .factor-row {
     padding: var(--space-md) var(--space-lg);
@@ -519,6 +548,7 @@
   @media (max-width: 768px) {
     .info-card__grid { grid-template-columns: 1fr; }
     .factor-row { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .domain-rating-row { grid-template-columns: 1fr; gap: var(--space-sm); }
     .survey-main { padding: var(--space-md); }
   }
 </style>
@@ -531,7 +561,7 @@
     <div class="survey-header__subtitle">9大维度 · 45项关键因素 · 重要度与紧迫度评分</div>
   </div>
   <div class="survey-header__progress">
-    <span id="progress-text">0 / 45 已评分</span>
+    <span id="progress-text">0 / 54 已评分</span>
     <div class="progress-bar">
       <div class="progress-bar__fill" id="progress-fill" style="width:0%"></div>
     </div>
@@ -591,7 +621,7 @@
   <!-- Submit -->
   <div class="submit-section">
     <button class="submit-btn" id="submit-btn" onclick="submitSurvey()" disabled>提交问卷</button>
-    <div class="submit-note">请确认所有因素均已评分后再提交</div>
+    <div class="submit-note">请确认所有维度及因素均已评分后再提交</div>
   </div>
 
 </div>
@@ -640,6 +670,7 @@ var DOMAINS = [
 
 // ===== STATE =====
 var ratings = {}; // { 'domainId-factorIndex': { imp: val, urg: val } }
+var domainRatings = {}; // { 'domainId': { imp: val, urg: val } }
 var supabaseClient = null;
 var totalRated = 0;
 
@@ -678,6 +709,9 @@ function initSupabase(url, key) {
 
 function setDefaultRatings() {
   DOMAINS.forEach(function(domain) {
+    // Domain-level default
+    domainRatings[domain.id] = { imp: 3, urg: 3 };
+
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
       ratings[key] = { imp: 3, urg: 3 };
@@ -703,6 +737,38 @@ function renderSurvey() {
     html += '</div>';
     html += '</div>';
     html += '<div class="domain-body" id="domain-body-' + di + '">';
+
+    // Domain-level rating row
+    var dKey = 'domain-' + domain.id;
+    html += '<div class="domain-rating-row">';
+    html += '<div class="domain-rating-name">';
+    html += '<span class="domain-rating-name__icon">&#9733;</span>';
+    html += '维度整体评分';
+    html += '</div>';
+
+    // Domain importance slider
+    html += '<div class="rating-group">';
+    html += '<div class="rating-group__header">';
+    html += '<span class="rating-group__label">重要度</span>';
+    html += '<span class="rating-group__value" id="dimp-val-' + domain.id + '">3.0</span>';
+    html += '</div>';
+    html += '<input type="range" class="rating-slider" min="0.5" max="5" step="0.5" value="3"';
+    html += ' oninput="updateDomainRating(\'' + domain.id + '\', \'imp\', this.value)" />';
+    html += '<div class="scale-labels"><span>不重要</span><span>非常重要</span></div>';
+    html += '</div>';
+
+    // Domain urgency slider
+    html += '<div class="rating-group">';
+    html += '<div class="rating-group__header">';
+    html += '<span class="rating-group__label">紧迫度</span>';
+    html += '<span class="rating-group__value" id="durg-val-' + domain.id + '">3.0</span>';
+    html += '</div>';
+    html += '<input type="range" class="rating-slider" min="0.5" max="5" step="0.5" value="3"';
+    html += ' oninput="updateDomainRating(\'' + domain.id + '\', \'urg\', this.value)" />';
+    html += '<div class="scale-labels"><span>不紧迫</span><span>非常紧迫</span></div>';
+    html += '</div>';
+
+    html += '</div>';
 
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
@@ -749,6 +815,20 @@ function toggleDomain(di) {
   body.style.display = body.style.display === 'none' ? '' : 'none';
 }
 
+// ===== DOMAIN-LEVEL RATING UPDATE =====
+function updateDomainRating(domainId, dim, value) {
+  if (!domainRatings[domainId]) domainRatings[domainId] = { imp: 3, urg: 3 };
+  domainRatings[domainId][dim] = parseFloat(value);
+
+  // Update display
+  var prefix = dim === 'imp' ? 'dimp-val-' : 'durg-val-';
+  var valEl = document.getElementById(prefix + domainId);
+  if (valEl) valEl.textContent = parseFloat(value).toFixed(1);
+
+  // Update progress
+  updateProgress();
+}
+
 // ===== RATING UPDATE =====
 function updateRating(key, dim, value) {
   if (!ratings[key]) ratings[key] = { imp: 3, urg: 3 };
@@ -764,10 +844,19 @@ function updateRating(key, dim, value) {
 
 function updateProgress() {
   var rated = 0;
-  var total = 45;
+  var total = 54; // 9 domain-level + 45 factor-level
 
   DOMAINS.forEach(function(domain, di) {
     var domainRated = 0;
+    var domainItems = 6; // 1 domain-level + 5 factor-level
+
+    // Check domain-level rating
+    var dr = domainRatings[domain.id];
+    if (dr && dr.imp !== undefined && dr.urg !== undefined) {
+      rated++;
+      domainRated++;
+    }
+
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
       if (ratings[key] && ratings[key].imp !== undefined && ratings[key].urg !== undefined) {
@@ -779,8 +868,8 @@ function updateProgress() {
     // Update domain status
     var statusEl = document.getElementById('domain-status-' + di);
     if (statusEl) {
-      var done = domainRated === 5;
-      statusEl.innerHTML = '<span>' + domainRated + '/5 已评分</span>' +
+      var done = domainRated === domainItems;
+      statusEl.innerHTML = '<span>' + domainRated + '/' + domainItems + ' 已评分</span>' +
         '<span class="domain-header__check' + (done ? ' domain-header__check--done' : '') + '">' +
         (done ? '&#10003;' : '&#8250;') + '</span>';
     }
@@ -823,6 +912,22 @@ async function submitSurvey() {
     if (respResult.error) throw new Error(respResult.error.message);
 
     var respondentId = respResult.data.id;
+
+    // Build domain-level ratings array
+    var domainRatingsArr = [];
+    DOMAINS.forEach(function(domain) {
+      var dr = domainRatings[domain.id] || { imp: 3, urg: 3 };
+      domainRatingsArr.push({
+        respondent_id: respondentId,
+        domain_id: domain.id,
+        importance: dr.imp,
+        urgency: dr.urg
+      });
+    });
+
+    // Insert domain ratings
+    var domainResult = await supabaseClient.from('domain_ratings').insert(domainRatingsArr);
+    if (domainResult.error) throw new Error(domainResult.error.message);
 
     // Build ratings array
     var ratingsArr = [];
