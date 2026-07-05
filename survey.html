@@ -646,6 +646,19 @@ body {
   border-radius: 2px;
 }
 
+/* Default/untouched state: gray thumb + muted value */
+.rating-slider--default::-webkit-slider-thumb {
+  background: var(--color-gray-30);
+}
+
+.rating-slider--default::-moz-range-thumb {
+  background: var(--color-gray-30);
+}
+
+.rating-group__value--default {
+  color: var(--color-gray-50);
+}
+
 .scale-labels {
   display: flex;
   justify-content: space-between;
@@ -1003,9 +1016,9 @@ function renderSurvey() {
     html += '<div class="rating-group">';
     html += '<div class="rating-group__header">';
     html += '<span class="rating-group__label">重要度</span>';
-    html += '<span class="rating-group__value" id="dimp-val-' + domain.id + '">3.0</span>';
+    html += '<span class="rating-group__value rating-group__value--default" id="dimp-val-' + domain.id + '">3.0</span>';
     html += '</div>';
-    html += '<input type="range" class="rating-slider" min="0.5" max="5" step="0.5" value="3"';
+    html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
     html += ' oninput="updateDomainRating(\'' + domain.id + '\', \'imp\', this.value)" />';
     html += '<div class="scale-labels"><span>不重要</span><span>非常重要</span></div>';
     html += '</div>';
@@ -1014,9 +1027,9 @@ function renderSurvey() {
     html += '<div class="rating-group">';
     html += '<div class="rating-group__header">';
     html += '<span class="rating-group__label">紧迫度</span>';
-    html += '<span class="rating-group__value" id="durg-val-' + domain.id + '">3.0</span>';
+    html += '<span class="rating-group__value rating-group__value--default" id="durg-val-' + domain.id + '">3.0</span>';
     html += '</div>';
-    html += '<input type="range" class="rating-slider" min="0.5" max="5" step="0.5" value="3"';
+    html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
     html += ' oninput="updateDomainRating(\'' + domain.id + '\', \'urg\', this.value)" />';
     html += '<div class="scale-labels"><span>不紧迫</span><span>非常紧迫</span></div>';
     html += '</div>';
@@ -1070,9 +1083,9 @@ function renderSurvey() {
       html += '<div class="rating-group">';
       html += '<div class="rating-group__header">';
       html += '<span class="rating-group__label">重要度</span>';
-      html += '<span class="rating-group__value" id="imp-val-' + key + '">3.0</span>';
+      html += '<span class="rating-group__value rating-group__value--default" id="imp-val-' + key + '">3.0</span>';
       html += '</div>';
-      html += '<input type="range" class="rating-slider" min="0.5" max="5" step="0.5" value="3"';
+      html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
       html += ' oninput="updateRating(\'' + key + '\', \'imp\', this.value)" />';
       html += '<div class="scale-labels"><span>不重要</span><span>非常重要</span></div>';
       html += '</div>';
@@ -1081,9 +1094,9 @@ function renderSurvey() {
       html += '<div class="rating-group">';
       html += '<div class="rating-group__header">';
       html += '<span class="rating-group__label">紧迫度</span>';
-      html += '<span class="rating-group__value" id="urg-val-' + key + '">3.0</span>';
+      html += '<span class="rating-group__value rating-group__value--default" id="urg-val-' + key + '">3.0</span>';
       html += '</div>';
-      html += '<input type="range" class="rating-slider" min="0.5" max="5" step="0.5" value="3"';
+      html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
       html += ' oninput="updateRating(\'' + key + '\', \'urg\', this.value)" />';
       html += '<div class="scale-labels"><span>不紧迫</span><span>非常紧迫</span></div>';
       html += '</div>';
@@ -1122,7 +1135,19 @@ function updateDomainRating(domainId, dim, value) {
 
   var prefix = dim === 'imp' ? 'dimp-val-' : 'durg-val-';
   var valEl = document.getElementById(prefix + domainId);
-  if (valEl) valEl.textContent = parseFloat(value).toFixed(1);
+  if (valEl) {
+    valEl.textContent = parseFloat(value).toFixed(1);
+    valEl.classList.remove('rating-group__value--default');
+  }
+
+  // Remove default class from the slider that triggered this
+  if (valEl) {
+    var group = valEl.closest('.rating-group');
+    if (group) {
+      var slider = group.querySelector('.rating-slider--default');
+      if (slider) slider.classList.remove('rating-slider--default');
+    }
+  }
 
   updateProgress();
 }
@@ -1133,7 +1158,19 @@ function updateRating(key, dim, value) {
   ratings[key][dim] = parseFloat(value);
 
   var valEl = document.getElementById(dim + '-val-' + key);
-  if (valEl) valEl.textContent = parseFloat(value).toFixed(1);
+  if (valEl) {
+    valEl.textContent = parseFloat(value).toFixed(1);
+    valEl.classList.remove('rating-group__value--default');
+  }
+
+  // Remove default class from the slider that triggered this
+  if (valEl) {
+    var group = valEl.closest('.rating-group');
+    if (group) {
+      var slider = group.querySelector('.rating-slider--default');
+      if (slider) slider.classList.remove('rating-slider--default');
+    }
+  }
 
   updateProgress();
 }
