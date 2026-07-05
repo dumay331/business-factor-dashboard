@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     /* Primitive color tokens */
@@ -1461,6 +1462,8 @@
       <button class="dim-toggle__btn" data-dim="urgency">紧迫度</button>
       <button class="dim-toggle__btn" data-dim="both">双维度</button>
     </div>
+    <a href="survey.html" style="margin-left:12px;padding:6px 14px;background:var(--color-green-60);color:white;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;text-decoration:none;white-space:nowrap;">填写问卷</a>
+    <span id="data-source-badge" style="margin-left:8px;font-size:11px;padding:3px 8px;border-radius:10px;background:#E0E0E0;color:#525252;white-space:nowrap;">模拟数据</span>
   </div>
 </header>
 
@@ -2750,6 +2753,89 @@ function init() {
   renderDomainLegend();
   renderRegionComparison();
   renderTable();
+
+  // Try loading real data from Supabase
+  loadSupabaseData();
+}
+
+// ===== SUPABASE INTEGRATION =====
+async function loadSupabaseData() {
+  var supaUrl = localStorage.getItem('supa_url');
+  var supaKey = localStorage.getItem('supa_key');
+  if (!supaUrl || !supaKey) return;
+
+  try {
+    var client = window.supabase.createClient(supaUrl, supaKey);
+
+    // Fetch aggregated scores by role
+    var scoresResult = await client.from('factor_scores_by_role').select('*');
+    if (scoresResult.error || !scoresResult.data || scoresResult.data.length === 0) return;
+
+    var scores = scoresResult.data;
+
+    // Fetch sample summary
+    var sampleResult = await client.from('sample_summary').select('*');
+
+    // Override DATA with real scores
+    scores.forEach(function(row) {
+      var factorItem = DATA.find(function(d) {
+        return d.domainId === row.domain_id && d.factor === row.factor;
+      });
+      if (!factorItem) return;
+
+      var role = row.role;
+      if (role === 'region') {
+        factorItem.importance.region = row.avg_importance;
+        factorItem.urgency.region = row.avg_urgency;
+      } else if (role === 'investor') {
+        factorItem.importance.investor = row.avg_importance;
+        factorItem.urgency.investor = row.avg_urgency;
+      } else if (role === 'hq') {
+        factorItem.importance.hq = row.avg_importance;
+        factorItem.urgency.hq = row.avg_urgency;
+      }
+    });
+
+    // Override sample data if available
+    if (sampleResult.data && sampleResult.data.length > 0) {
+      var regionMap = {};
+      var hqCount = 0;
+      sampleResult.data.forEach(function(s) {
+        if (s.role === 'hq') {
+          hqCount += s.respondent_count;
+        } else {
+          var rKey = s.region || '未知';
+          if (!regionMap[rKey]) regionMap[rKey] = { region: 0, investor: 0 };
+          if (s.role === 'region') regionMap[rKey].region = s.respondent_count;
+          if (s.role === 'investor') regionMap[rKey].investor = s.respondent_count;
+        }
+      });
+
+      SAMPLE_DATA.hq = hqCount || SAMPLE_DATA.hq;
+      var regionNames = Object.keys(regionMap);
+      if (regionNames.length > 0) {
+        SAMPLE_DATA.regions = regionNames.map(function(name) {
+          return { name: name, region: regionMap[name].region, investor: regionMap[name].investor };
+        });
+      }
+    }
+
+    // Refresh all modules with real data
+    refreshAll();
+
+    // Update badge
+    var badge = document.getElementById('data-source-badge');
+    if (badge) {
+      badge.textContent = '实时数据';
+      badge.style.background = '#DEFBE6';
+      badge.style.color = '#198038';
+    }
+
+    console.log('Supabase: loaded ' + scores.length + ' factor scores from ' + (sampleResult.data ? sampleResult.data.length : 0) + ' respondent groups');
+
+  } catch (err) {
+    console.warn('Supabase: failed to load data, using simulated data.', err.message);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
