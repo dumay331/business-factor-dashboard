@@ -724,26 +724,26 @@ function renderSurvey() {
   var container = document.getElementById('survey-domains');
   var html = '';
 
-  DOMAINS.forEach(function(domain, di) {
-    html += '<div class="domain-section">';
-    html += '<div class="domain-header" onclick="toggleDomain(' + di + ')">';
-    html += '<div class="domain-header__left">';
-    html += '<div class="domain-header__badge">' + (di + 1) + '</div>';
-    html += '<div class="domain-header__name">' + domain.name + '</div>';
-    html += '</div>';
-    html += '<div class="domain-header__status" id="domain-status-' + di + '">';
-    html += '<span>0/5 已评分</span>';
-    html += '<span class="domain-header__check" id="domain-check-' + di + '">&#8250;</span>';
-    html += '</div>';
-    html += '</div>';
-    html += '<div class="domain-body" id="domain-body-' + di + '">';
+  // === Section 0: Domain-level ratings ===
+  html += '<div class="domain-section">';
+  html += '<div class="domain-header" onclick="toggleDomain(-1)">';
+  html += '<div class="domain-header__left">';
+  html += '<div class="domain-header__badge">0</div>';
+  html += '<div class="domain-header__name">九大维度整体评分</div>';
+  html += '</div>';
+  html += '<div class="domain-header__status" id="domain-status--1">';
+  html += '<span>0/9 已评分</span>';
+  html += '<span class="domain-header__check" id="domain-check--1">&#8250;</span>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="domain-body" id="domain-body--1">';
+  html += '<div style="padding:var(--space-sm) var(--space-lg);font-size:var(--text-xs);color:var(--color-text-muted);background:#F4F7FF;border-bottom:1px solid var(--color-gray-20);">请先对以下9大维度的整体重要度和紧迫度进行评分</div>';
 
-    // Domain-level rating row
-    var dKey = 'domain-' + domain.id;
+  DOMAINS.forEach(function(domain, di) {
     html += '<div class="domain-rating-row">';
     html += '<div class="domain-rating-name">';
-    html += '<span class="domain-rating-name__icon">&#9733;</span>';
-    html += '维度整体评分';
+    html += '<span class="factor-name__index">0.' + (di + 1) + '</span>';
+    html += domain.name;
     html += '</div>';
 
     // Domain importance slider
@@ -769,6 +769,25 @@ function renderSurvey() {
     html += '</div>';
 
     html += '</div>';
+  });
+
+  html += '</div>';
+  html += '</div>';
+
+  // === Sections 1-9: Factor-level ratings ===
+  DOMAINS.forEach(function(domain, di) {
+    html += '<div class="domain-section">';
+    html += '<div class="domain-header" onclick="toggleDomain(' + di + ')">';
+    html += '<div class="domain-header__left">';
+    html += '<div class="domain-header__badge">' + (di + 1) + '</div>';
+    html += '<div class="domain-header__name">' + domain.name + '</div>';
+    html += '</div>';
+    html += '<div class="domain-header__status" id="domain-status-' + di + '">';
+    html += '<span>0/5 已评分</span>';
+    html += '<span class="domain-header__check" id="domain-check-' + di + '">&#8250;</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="domain-body" id="domain-body-' + di + '">';
 
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
@@ -811,7 +830,8 @@ function renderSurvey() {
 }
 
 function toggleDomain(di) {
-  var body = document.getElementById('domain-body-' + di);
+  var bodyId = di === -1 ? 'domain-body--1' : 'domain-body-' + di;
+  var body = document.getElementById(bodyId);
   body.style.display = body.style.display === 'none' ? '' : 'none';
 }
 
@@ -846,30 +866,38 @@ function updateProgress() {
   var rated = 0;
   var total = 54; // 9 domain-level + 45 factor-level
 
-  DOMAINS.forEach(function(domain, di) {
-    var domainRated = 0;
-    var domainItems = 6; // 1 domain-level + 5 factor-level
-
-    // Check domain-level rating
+  // Domain-level section status (section 0)
+  var domainRated = 0;
+  DOMAINS.forEach(function(domain) {
     var dr = domainRatings[domain.id];
     if (dr && dr.imp !== undefined && dr.urg !== undefined) {
       rated++;
       domainRated++;
     }
+  });
+  var dStatusEl = document.getElementById('domain-status--1');
+  if (dStatusEl) {
+    var dDone = domainRated === 9;
+    dStatusEl.innerHTML = '<span>' + domainRated + '/9 已评分</span>' +
+      '<span class="domain-header__check' + (dDone ? ' domain-header__check--done' : '') + '">' +
+      (dDone ? '&#10003;' : '&#8250;') + '</span>';
+  }
 
+  // Factor-level section statuses (sections 1-9)
+  DOMAINS.forEach(function(domain, di) {
+    var factorRated = 0;
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
       if (ratings[key] && ratings[key].imp !== undefined && ratings[key].urg !== undefined) {
         rated++;
-        domainRated++;
+        factorRated++;
       }
     });
 
-    // Update domain status
     var statusEl = document.getElementById('domain-status-' + di);
     if (statusEl) {
-      var done = domainRated === domainItems;
-      statusEl.innerHTML = '<span>' + domainRated + '/' + domainItems + ' 已评分</span>' +
+      var done = factorRated === 5;
+      statusEl.innerHTML = '<span>' + factorRated + '/5 已评分</span>' +
         '<span class="domain-header__check' + (done ? ' domain-header__check--done' : '') + '">' +
         (done ? '&#10003;' : '&#8250;') + '</span>';
     }
