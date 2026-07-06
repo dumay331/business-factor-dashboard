@@ -308,138 +308,11 @@ body {
 }
 
 .section-divider__label {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
   white-space: nowrap;
-}
-
-/* ===== DOMAIN-LEVEL CARDS (Section 0) ===== */
-.domain-overview {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  margin-bottom: var(--space-xl);
-}
-
-.domain-overview__header {
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-blue-10);
-  border-bottom: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.domain-overview__title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.domain-overview__badge {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-md);
-  background: var(--color-action-primary);
-  color: var(--color-text-inverse);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: 700;
-}
-
-.domain-overview__name {
-  font-size: var(--text-md);
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.domain-overview__hint {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
-.domain-overview__status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.status-check {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  background: var(--color-gray-20);
-  color: var(--color-gray-50);
-  flex-shrink: 0;
-}
-
-.status-check--done {
-  background: var(--color-success);
-  color: white;
-}
-
-/* Domain card grid */
-.domain-card-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0;
-}
-
-.domain-card {
-  padding: var(--space-md) var(--space-lg);
-  border-right: 1px solid var(--color-gray-10);
-  border-bottom: 1px solid var(--color-gray-10);
-  transition: background 0.12s ease;
-}
-
-.domain-card:hover {
-  background: var(--color-surface-alt);
-}
-
-.domain-card:nth-child(3n) {
-  border-right: none;
-}
-
-.domain-card:nth-last-child(-n+3) {
-  border-bottom: none;
-}
-
-.domain-card__name {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.domain-card__index {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--color-action-primary);
-  font-weight: 700;
-}
-
-.domain-card .rating-group {
-  margin-bottom: 8px;
-}
-
-.domain-card .rating-group:last-child {
-  margin-bottom: 0;
+  letter-spacing: 0.02em;
 }
 
 /* ===== FACTOR SECTIONS (1-9) ===== */
@@ -569,6 +442,52 @@ body {
 
 .factor-section__body--collapsed {
   max-height: 0 !important;
+}
+
+/* Status indicator in section headers */
+.status-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-gray-30);
+  font-size: 11px;
+  color: var(--color-gray-50);
+  line-height: 1;
+}
+
+.status-check--done {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+  color: white;
+}
+
+/* Domain average display in factor section headers */
+.domain-avg {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.domain-avg__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.domain-avg__label {
+  color: var(--color-text-muted);
+}
+
+.domain-avg__value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-action-primary);
+  min-width: 24px;
 }
 
 /* ===== RATING GROUP ===== */
@@ -782,15 +701,6 @@ body {
 
   .info-card__grid { grid-template-columns: 1fr; }
 
-  .domain-card-grid { grid-template-columns: 1fr; }
-
-  .domain-card {
-    border-right: none;
-    border-bottom: 1px solid var(--color-gray-10);
-  }
-
-  .domain-card:last-child { border-bottom: none; }
-
   .factor-table-head,
   .factor-row {
     grid-template-columns: 1fr;
@@ -798,14 +708,12 @@ body {
   }
 
   .factor-table-head { display: none; }
+
+  .domain-avg { display: none; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .domain-card-grid { grid-template-columns: 1fr 1fr; }
-  .domain-card:nth-child(3n) { border-right: 1px solid var(--color-gray-10); }
-  .domain-card:nth-child(2n) { border-right: none; }
-  .domain-card:nth-last-child(-n+3) { border-bottom: 1px solid var(--color-gray-10); }
-  .domain-card:nth-last-child(-n+2) { border-bottom: none; }
+  .survey-main { padding: var(--space-lg); }
 }
 </style>
 </head>
@@ -823,7 +731,7 @@ body {
         <div class="progress-ring__bar">
           <div class="progress-ring__fill" id="progress-fill"></div>
         </div>
-        <span class="progress-ring__text" id="progress-text">0 / 54</span>
+        <span class="progress-ring__text" id="progress-text">0 / 45</span>
       </div>
     </div>
   </div>
@@ -886,7 +794,7 @@ body {
   <!-- Submit -->
   <div class="submit-section">
     <button class="submit-btn" id="submit-btn" onclick="submitSurvey()" disabled>提交问卷</button>
-    <div class="submit-note">请确认所有维度及因素均已评分后再提交</div>
+    <div class="submit-note">请确认所有45项因素均已评分后再提交</div>
   </div>
 
 </main>
@@ -935,8 +843,6 @@ var DOMAINS = [
 
 // ===== STATE =====
 var ratings = {};
-var domainRatings = {};
-var touchedDomainIds = {}; // { 'domainId': true } when user has touched the slider
 var touchedFactorIds = {}; // { 'domainId-fi': true } when user has touched the slider
 var supabaseClient = null;
 var totalRated = 0;
@@ -971,7 +877,6 @@ function initSupabase(url, key) {
 
 function setDefaultRatings() {
   DOMAINS.forEach(function(domain) {
-    domainRatings[domain.id] = { imp: 3, urg: 3 };
     domain.factors.forEach(function(factor, fi) {
       var key = domain.id + '-' + fi;
       ratings[key] = { imp: 3, urg: 3 };
@@ -984,67 +889,10 @@ function renderSurvey() {
   var container = document.getElementById('survey-domains');
   var html = '';
 
-  // ── Section 0: Domain-level overview ──
-  html += '<div class="section-divider">';
-  html += '<div class="section-divider__line"></div>';
-  html += '<span class="section-divider__label">第一部分 · 维度整体评估</span>';
-  html += '<div class="section-divider__line"></div>';
-  html += '</div>';
-
-  html += '<section class="domain-overview" data-component="domain-overview">';
-  html += '<div class="domain-overview__header">';
-  html += '<div class="domain-overview__title">';
-  html += '<div class="domain-overview__badge">0</div>';
-  html += '<div>';
-  html += '<div class="domain-overview__name">九大维度整体评分</div>';
-  html += '<div class="domain-overview__hint">请对以下9个维度的整体重要度和紧迫度评分</div>';
-  html += '</div>';
-  html += '</div>';
-  html += '<div class="domain-overview__status" id="domain-status--1">';
-  html += '<span>0/9</span>';
-  html += '<span class="status-check" id="domain-check--1">&#8250;</span>';
-  html += '</div>';
-  html += '</div>';
-
-  html += '<div class="domain-card-grid">';
-  DOMAINS.forEach(function(domain, di) {
-    html += '<div class="domain-card" data-domain="' + domain.id + '">';
-    html += '<div class="domain-card__name">';
-    html += '<span class="domain-card__index">0.' + (di + 1) + '</span>';
-    html += domain.name;
-    html += '</div>';
-
-    // Importance
-    html += '<div class="rating-group">';
-    html += '<div class="rating-group__header">';
-    html += '<span class="rating-group__label">重要度</span>';
-    html += '<span class="rating-group__value rating-group__value--default" id="dimp-val-' + domain.id + '">3.0</span>';
-    html += '</div>';
-    html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
-    html += ' oninput="updateDomainRating(\'' + domain.id + '\', \'imp\', this.value)" />';
-    html += '<div class="scale-labels"><span>不重要</span><span>非常重要</span></div>';
-    html += '</div>';
-
-    // Urgency
-    html += '<div class="rating-group">';
-    html += '<div class="rating-group__header">';
-    html += '<span class="rating-group__label">紧迫度</span>';
-    html += '<span class="rating-group__value rating-group__value--default" id="durg-val-' + domain.id + '">3.0</span>';
-    html += '</div>';
-    html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
-    html += ' oninput="updateDomainRating(\'' + domain.id + '\', \'urg\', this.value)" />';
-    html += '<div class="scale-labels"><span>不紧迫</span><span>非常紧迫</span></div>';
-    html += '</div>';
-
-    html += '</div>';
-  });
-  html += '</div>';
-  html += '</section>';
-
   // ── Sections 1-9: Factor-level ratings ──
   html += '<div class="section-divider">';
   html += '<div class="section-divider__line"></div>';
-  html += '<span class="section-divider__label">第二部分 · 逐项因素评分</span>';
+  html += '<span class="section-divider__label">九大维度 · 45项因素评分</span>';
   html += '<div class="section-divider__line"></div>';
   html += '</div>';
 
@@ -1058,6 +906,10 @@ function renderSurvey() {
     html += '<span class="factor-section__name">' + domain.name + '</span>';
     html += '</div>';
     html += '<div class="factor-section__right">';
+    html += '<div class="domain-avg" id="domain-avg-' + di + '">';
+    html += '<div class="domain-avg__item"><span class="domain-avg__label">重要度</span><span class="domain-avg__value" id="domain-avg-imp-' + di + '">3.0</span></div>';
+    html += '<div class="domain-avg__item"><span class="domain-avg__label">紧迫度</span><span class="domain-avg__value" id="domain-avg-urg-' + di + '">3.0</span></div>';
+    html += '</div>';
     html += '<span id="domain-status-' + di + '">0/5</span>';
     html += '<span class="status-check" id="domain-check-' + di + '">&#8250;</span>';
     html += '<span class="factor-section__chevron" id="chevron-' + di + '">&#9662;</span>';
@@ -1130,33 +982,6 @@ function toggleSection(di) {
   }
 }
 
-// ===== DOMAIN-LEVEL RATING =====
-function updateDomainRating(domainId, dim, value) {
-  if (!domainRatings[domainId]) domainRatings[domainId] = { imp: 3, urg: 3 };
-  domainRatings[domainId][dim] = parseFloat(value);
-
-  // Mark as touched if both dimensions have been interacted with
-  var touchKey = domainId + '-' + dim;
-  if (!touchedDomainIds[touchKey]) touchedDomainIds[touchKey] = true;
-
-  var prefix = dim === 'imp' ? 'dimp-val-' : 'durg-val-';
-  var valEl = document.getElementById(prefix + domainId);
-  if (valEl) {
-    valEl.textContent = parseFloat(value).toFixed(1);
-    valEl.classList.remove('rating-group__value--default');
-  }
-
-  if (valEl) {
-    var group = valEl.closest('.rating-group');
-    if (group) {
-      var slider = group.querySelector('.rating-slider--default');
-      if (slider) slider.classList.remove('rating-slider--default');
-    }
-  }
-
-  updateProgress();
-}
-
 // ===== FACTOR RATING =====
 function updateRating(key, dim, value) {
   if (!ratings[key]) ratings[key] = { imp: 3, urg: 3 };
@@ -1181,32 +1006,36 @@ function updateRating(key, dim, value) {
   }
 
   updateProgress();
+  updateDomainAverages();
+}
+
+// ===== DOMAIN AVERAGES =====
+function updateDomainAverages() {
+  DOMAINS.forEach(function(domain, di) {
+    var impSum = 0;
+    var urgSum = 0;
+    domain.factors.forEach(function(factor, fi) {
+      var key = domain.id + '-' + fi;
+      var r = ratings[key] || { imp: 3, urg: 3 };
+      impSum += r.imp;
+      urgSum += r.urg;
+    });
+    var impAvg = (impSum / domain.factors.length).toFixed(1);
+    var urgAvg = (urgSum / domain.factors.length).toFixed(1);
+
+    var impEl = document.getElementById('domain-avg-imp-' + di);
+    var urgEl = document.getElementById('domain-avg-urg-' + di);
+    if (impEl) impEl.textContent = impAvg;
+    if (urgEl) urgEl.textContent = urgAvg;
+  });
 }
 
 // ===== PROGRESS =====
 function updateProgress() {
   var rated = 0;
-  var total = 54;
+  var total = 45;
 
-  // Section 0: domain-level (counted as rated only when both imp and urg are touched)
-  var domainRated = 0;
-  DOMAINS.forEach(function(domain) {
-    var impTouched = touchedDomainIds[domain.id + '-imp'];
-    var urgTouched = touchedDomainIds[domain.id + '-urg'];
-    if (impTouched && urgTouched) {
-      rated++;
-      domainRated++;
-    }
-  });
-  var dStatusEl = document.getElementById('domain-status--1');
-  if (dStatusEl) {
-    var dDone = domainRated === 9;
-    dStatusEl.innerHTML = '<span>' + domainRated + '/9</span>' +
-      '<span class="status-check' + (dDone ? ' status-check--done' : '') + '" id="domain-check--1">' +
-      (dDone ? '&#10003;' : '&#8250;') + '</span>';
-  }
-
-  // Sections 1-9: factor-level (counted as rated only when both imp and urg are touched)
+  // Factor-level (counted as rated only when both imp and urg are touched)
   DOMAINS.forEach(function(domain, di) {
     var factorRated = 0;
     domain.factors.forEach(function(factor, fi) {
@@ -1265,21 +1094,6 @@ async function submitSurvey() {
     if (respResult.error) throw new Error(respResult.error.message);
 
     var respondentId = respResult.data.id;
-
-    // Domain-level ratings
-    var domainRatingsArr = [];
-    DOMAINS.forEach(function(domain) {
-      var dr = domainRatings[domain.id] || { imp: 3, urg: 3 };
-      domainRatingsArr.push({
-        respondent_id: respondentId,
-        domain_id: domain.id,
-        importance: dr.imp,
-        urgency: dr.urg
-      });
-    });
-
-    var domainResult = await supabaseClient.from('domain_ratings').insert(domainRatingsArr);
-    if (domainResult.error) throw new Error(domainResult.error.message);
 
     // Factor-level ratings
     var ratingsArr = [];
