@@ -468,9 +468,13 @@ body {
 .domain-avg {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-size: var(--text-xs);
   color: var(--color-text-muted);
+  background: var(--color-blue-10);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-right: 6px;
 }
 
 .domain-avg__item {
@@ -480,13 +484,15 @@ body {
 }
 
 .domain-avg__label {
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
+  font-weight: 500;
 }
 
 .domain-avg__value {
   font-family: var(--font-mono);
   font-weight: 700;
   color: var(--color-action-primary);
+  font-size: var(--text-sm);
   min-width: 24px;
 }
 
