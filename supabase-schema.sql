@@ -23,28 +23,15 @@ CREATE TABLE ratings (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- 2b. Domain-level ratings (overall importance/urgency per domain per respondent)
-CREATE TABLE domain_ratings (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  respondent_id UUID REFERENCES respondents(id) ON DELETE CASCADE,
-  domain_id TEXT NOT NULL,
-  importance NUMERIC(2,1) NOT NULL CHECK (importance >= 0.5 AND importance <= 5),
-  urgency NUMERIC(2,1) NOT NULL CHECK (urgency >= 0.5 AND urgency <= 5),
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
 -- 3. Indexes for performance
 CREATE INDEX idx_ratings_respondent ON ratings(respondent_id);
 CREATE INDEX idx_ratings_domain ON ratings(domain_id);
-CREATE INDEX idx_domain_ratings_respondent ON domain_ratings(respondent_id);
-CREATE INDEX idx_domain_ratings_domain ON domain_ratings(domain_id);
 CREATE INDEX idx_respondents_role ON respondents(role);
 CREATE INDEX idx_respondents_region ON respondents(region);
 
 -- 4. Row Level Security (allow anonymous submissions for survey)
 ALTER TABLE respondents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ratings ENABLE ROW LEVEL SECURITY;
-ALTER TABLE domain_ratings ENABLE ROW LEVEL SECURITY;
 
 -- Allow anyone to insert survey responses
 CREATE POLICY "Allow anonymous insert" ON respondents
@@ -53,17 +40,11 @@ CREATE POLICY "Allow anonymous insert" ON respondents
 CREATE POLICY "Allow anonymous insert" ON ratings
   FOR INSERT WITH CHECK (true);
 
-CREATE POLICY "Allow anonymous insert" ON domain_ratings
-  FOR INSERT WITH CHECK (true);
-
 -- Allow public read access for dashboard aggregation
 CREATE POLICY "Allow public read" ON respondents
   FOR SELECT USING (true);
 
 CREATE POLICY "Allow public read" ON ratings
-  FOR SELECT USING (true);
-
-CREATE POLICY "Allow public read" ON domain_ratings
   FOR SELECT USING (true);
 
 -- 5. Aggregation view for dashboard (average scores per factor per role)
@@ -103,14 +84,14 @@ SELECT
 FROM respondents resp
 GROUP BY resp.role, resp.region;
 
--- 8. Domain-level aggregation view (average domain scores per role)
+-- 8. Domain-level aggregation view (domain scores = average of 5 factor scores per domain per role)
 CREATE VIEW domain_scores_by_role AS
 SELECT
-  dr.domain_id,
+  r.domain_id,
   resp.role,
-  COUNT(*) AS sample_size,
-  ROUND(AVG(dr.importance), 1) AS avg_importance,
-  ROUND(AVG(dr.urgency), 1) AS avg_urgency
-FROM domain_ratings dr
-JOIN respondents resp ON resp.id = dr.respondent_id
-GROUP BY dr.domain_id, resp.role;
+  COUNT(DISTINCT resp.id) AS sample_size,
+  ROUND(AVG(r.importance), 1) AS avg_importance,
+  ROUND(AVG(r.urgency), 1) AS avg_urgency
+FROM ratings r
+JOIN respondents resp ON resp.id = r.respondent_id
+GROUP BY r.domain_id, resp.role;

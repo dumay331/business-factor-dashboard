@@ -1,0 +1,2845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="canvas:aspect-ratio" content="16:9" />
+<title>昊铂埃安营销体系关键影响因素调研全景分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    /* Primitive color tokens */
+    --color-white: #FFFFFF;
+    --color-gray-10: #F4F4F4;
+    --color-gray-20: #E0E0E0;
+    --color-gray-30: #C6C6C6;
+    --color-gray-50: #8D8D8D;
+    --color-gray-60: #6F6F6F;
+    --color-gray-70: #525252;
+    --color-gray-80: #393939;
+    --color-gray-90: #262626;
+    --color-gray-100: #161616;
+    --color-blue-60: #0F62FE;
+    --color-blue-70: #0043CE;
+    --color-green-60: #24A148;
+    --color-green-50: #198038;
+    --color-orange-50: #EB6200;
+    --color-orange-40: #F76B15;
+    --color-red-60: #DA1E28;
+    --color-yellow-40: #F1C21B;
+
+    /* Semantic tokens */
+    --seed-bg: #F4F4F4;
+    --seed-surface: #FFFFFF;
+    --seed-fg: #161616;
+    --seed-primary: #0F62FE;
+    --seed-accent: #0F62FE;
+    --seed-radius: 2px;
+
+    --color-bg: var(--seed-bg);
+    --color-surface: var(--seed-surface);
+    --color-surface-hover: #F9F9FB;
+    --color-text-primary: var(--seed-fg);
+    --color-text-secondary: #525252;
+    --color-text-muted: #6F6F6F;
+    --color-text-inverse: #FFFFFF;
+    --color-action-primary: var(--seed-primary);
+    --color-action-hover: #0043CE;
+    --color-border: #E0E0E0;
+    --color-border-strong: #C6C6C6;
+    --color-focus-ring: rgba(15, 98, 254, 0.3);
+    --color-state-success: #24A148;
+    --color-state-warning: #F1C21B;
+    --color-state-danger: #DA1E28;
+
+    /* Role colors */
+    --role-region: #0F62FE;
+    --role-investor: #24A148;
+    --role-hq: #EB6200;
+
+    /* Additional semantic tokens */
+    --color-accent-purple: #8A3FFC;
+    --color-bg-hover-strong: #EBEBEB;
+    --color-warning-text: #8B6914;
+    --color-q1-header: #1a3a5c;
+    --color-q2-header: #4a90b8;
+    --color-q3-header: #EB6200;
+    --color-q4-header: #6b7b8a;
+
+    /* Spacing tokens (8px base) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+
+    /* Radius tokens */
+    --radius-sm: var(--seed-radius);
+    --radius-md: 4px;
+    --radius-lg: 8px;
+
+    /* Shadow */
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-raised: 0 2px 8px rgba(0,0,0,0.1);
+
+    /* Typography */
+    --font-body: 'IBM Plex Sans SC', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --text-xs: 12px;
+    --text-sm: 13px;
+    --text-base: 14px;
+    --text-md: 16px;
+    --text-lg: 18px;
+    --text-xl: 24px;
+    --text-2xl: 32px;
+    --leading-tight: 1.15;
+    --leading-normal: 1.5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-primary);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 var(--space-lg);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .site-header__title {
+    font-size: var(--text-md);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+  }
+
+  .site-header__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  /* Role filter chips */
+  .role-filter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .role-filter__label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-right: var(--space-xs);
+    letter-spacing: 0.01em;
+  }
+
+  .role-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    letter-spacing: 0.01em;
+    color: var(--color-text-secondary);
+  }
+
+  .role-chip:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-hover);
+  }
+
+  .role-chip:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  .role-chip--active {
+    color: var(--color-text-inverse);
+    border-color: transparent;
+  }
+
+  .role-chip[data-role="region"].role-chip--active { background: var(--role-region); }
+  .role-chip[data-role="investor"].role-chip--active { background: var(--role-investor); }
+  .role-chip[data-role="hq"].role-chip--active { background: var(--role-hq); }
+
+  .role-chip__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .role-chip[data-role="region"] .role-chip__dot { background: var(--role-region); }
+  .role-chip[data-role="investor"] .role-chip__dot { background: var(--role-investor); }
+  .role-chip[data-role="hq"] .role-chip__dot { background: var(--role-hq); }
+
+  .role-chip--active .role-chip__dot {
+    background: rgba(255,255,255,0.7);
+  }
+
+  /* Dimension toggle */
+  .dim-toggle {
+    display: flex;
+    background: var(--color-gray-10);
+    border-radius: var(--radius-md);
+    padding: 2px;
+    border: 1px solid var(--color-border);
+  }
+
+  .dim-toggle__btn {
+    padding: 5px 14px;
+    border: none;
+    background: transparent;
+    font-size: var(--text-sm);
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.15s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .dim-toggle__btn:hover {
+    color: var(--color-text-primary);
+  }
+
+  .dim-toggle__btn--active {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .dim-toggle__btn:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: -1px;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-lg);
+  }
+
+  /* ===== SAMPLE SIZE BAR ===== */
+  .sample-bar {
+    display: flex;
+    align-items: stretch;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+  }
+
+  .sample-bar__label {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-lg);
+    background: var(--seed-primary);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+
+  .sample-bar__regions {
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .sample-bar__region {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    min-width: 0;
+    flex: 1;
+    border-right: 1px solid var(--color-border);
+    gap: 3px;
+  }
+
+  .sample-bar__region:last-child {
+    border-right: none;
+  }
+
+  .sample-bar__region-name {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 4px;
+  }
+
+  .sample-bar__counts {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sample-bar__count {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .sample-bar__count--region {
+    color: var(--role-region);
+  }
+
+  .sample-bar__count--investor {
+    color: var(--role-investor);
+  }
+
+  .sample-bar__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sample-bar__dot--region {
+    background: var(--role-region);
+  }
+
+  .sample-bar__dot--investor {
+    background: var(--role-investor);
+  }
+
+  .sample-bar__hq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px var(--space-lg);
+    border-left: 2px solid var(--color-border);
+    flex-shrink: 0;
+    gap: 3px;
+    background: rgba(235, 98, 0, 0.04);
+  }
+
+  .sample-bar__hq-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .sample-bar__hq-count {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--role-hq);
+  }
+
+  .sample-bar__total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px var(--space-md);
+    border-left: 2px solid var(--color-border);
+    flex-shrink: 0;
+    gap: 3px;
+    background: var(--color-gray-10);
+  }
+
+  .sample-bar__total-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .sample-bar__total-value {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .sample-bar__total-value--region {
+    color: var(--role-region);
+  }
+
+  .sample-bar__total-value--investor {
+    color: var(--role-investor);
+  }
+
+  /* ===== SUMMARY CARDS ===== */
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .summary-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    box-shadow: var(--shadow-card);
+    min-height: 104px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary-card__label {
+    font-size: 15px;
+    color: var(--seed-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+
+  .summary-card__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .summary-card__item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .summary-card__item-rank {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+  }
+
+  .summary-card__item-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .summary-card__item-score {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+  }
+
+  .summary-card--accent {
+    border-left: 3px solid var(--color-action-primary);
+  }
+
+  .summary-card--warning {
+    border-left: 3px solid var(--role-hq);
+  }
+
+  .summary-card--danger {
+    border-left: 3px solid var(--color-state-danger);
+  }
+
+  .summary-card--diverge {
+    border-left: 3px solid var(--color-accent-purple);
+  }
+
+  .summary-card--blindspot {
+    border-left: 3px solid #0d7377;
+  }
+
+  .summary-card--consensus {
+    border-left: 3px solid var(--color-state-success);
+  }
+
+  /* ===== CHARTS AREA ===== */
+  .charts-area {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .chart-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .chart-panel__header {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .chart-panel__title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--color-text-primary);
+  }
+
+  .chart-panel__subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    letter-spacing: 0.01em;
+  }
+
+  .chart-panel__body {
+    padding: var(--space-md);
+  }
+
+  #radar-chart {
+    width: 100%;
+    height: 340px;
+  }
+
+  /* ===== COMPARISON CHART ===== */
+  .domain-tabs {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .domain-tabs::-webkit-scrollbar { display: none; }
+
+  .domain-tab {
+    padding: 6px 14px;
+    border: none;
+    background: transparent;
+    font-size: var(--text-xs);
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .domain-tab:hover {
+    color: var(--color-text-primary);
+    background: var(--color-gray-10);
+  }
+
+  .domain-tab--active {
+    color: var(--color-action-primary);
+    border-bottom-color: var(--color-action-primary);
+    font-weight: 600;
+  }
+
+  .domain-tab:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .comparison-charts {
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .comparison-chart-box {
+    flex: 1;
+    min-height: 320px;
+  }
+
+  .comparison-chart-box--full {
+    flex: none;
+    width: 100%;
+    min-height: 360px;
+  }
+
+  /* ===== DATA TABLE ===== */
+  .data-table-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .data-table-header {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .data-table-header:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .data-table-header__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .data-table-header__toggle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    color: var(--color-text-muted);
+  }
+
+  .data-table-header__toggle--open {
+    transform: rotate(180deg);
+  }
+
+  .table-filters {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .table-filter-select {
+    padding: 4px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-family: var(--font-body);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    cursor: pointer;
+  }
+
+  .table-filter-select:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: -1px;
+  }
+
+  .data-table-body {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .data-table-body--collapsed {
+    max-height: 0;
+  }
+
+  .data-table-body--expanded {
+    max-height: 2000px;
+  }
+
+  .data-table-scroll {
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  th {
+    background: var(--color-gray-10);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  th:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-hover-strong);
+  }
+
+  th .sort-icon {
+    display: inline-block;
+    margin-left: 4px;
+    opacity: 0.4;
+    font-size: 10px;
+  }
+
+  th .sort-icon--active {
+    opacity: 1;
+    color: var(--color-action-primary);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    vertical-align: middle;
+  }
+
+  tr:hover td {
+    background: var(--color-surface-hover);
+  }
+
+  td.score-cell {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .score-bar {
+    display: inline-block;
+    height: 6px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 8px;
+    transition: width 0.3s ease;
+  }
+
+  .score-bar--region { background: var(--role-region); }
+  .score-bar--investor { background: var(--role-investor); }
+  .score-bar--hq { background: var(--role-hq); }
+
+  .divergence-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+  }
+
+  .divergence-badge--high {
+    background: rgba(218, 30, 40, 0.1);
+    color: var(--color-state-danger);
+  }
+
+  .divergence-badge--medium {
+    background: rgba(241, 194, 27, 0.15);
+    color: var(--color-warning-text);
+  }
+
+  .divergence-badge--low {
+    background: rgba(36, 161, 72, 0.1);
+    color: var(--color-state-success);
+  }
+
+  .domain-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--color-gray-10);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  /* ===== PANORAMIC VIEW ===== */
+  .panoramic-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-bottom: var(--space-lg);
+  }
+
+  /* ===== QUADRANT VIEW (Priority Matrix Columns) ===== */
+  .quadrant-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-bottom: var(--space-lg);
+  }
+
+  .quadrant-header {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .quadrant-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .quadrant-col {
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+  }
+
+  .quadrant-col:last-child {
+    border-right: none;
+  }
+
+  .quadrant-col__header {
+    padding: 12px 14px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--color-text-inverse);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .quadrant-col__count {
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+  }
+
+  .quadrant-col__header--q1 { background: var(--color-q1-header); }
+  .quadrant-col__header--q2 { background: var(--color-q2-header); }
+  .quadrant-col__header--q3 { background: var(--color-q3-header); }
+  .quadrant-col__header--q4 { background: var(--color-q4-header); }
+
+  .quadrant-col__list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 480px;
+    padding: var(--space-sm) 0;
+  }
+
+  .quadrant-col__list::-webkit-scrollbar {
+    width: 4px;
+  }
+  .quadrant-col__list::-webkit-scrollbar-thumb {
+    background: var(--color-gray-30);
+    border-radius: 2px;
+  }
+
+  .q-factor-card {
+    margin: 4px 8px;
+    padding: 10px 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all 0.15s ease;
+    cursor: default;
+  }
+
+  .q-factor-card:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-card);
+  }
+
+  .q-factor-card__name {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .q-factor-card__scores {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .q-factor-card__score {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.01em;
+  }
+
+  .q-factor-card__score-value {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--color-text-primary);
+  }
+
+  .q-factor-card__total {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: auto;
+    padding: 2px 8px;
+    background: var(--color-gray-10);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+  }
+
+  .q-factor-card__rank {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-gray-10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .q-factor-card { position: relative; }
+
+  .q-factor-card--top {
+    border-left: 3px solid var(--color-action-primary);
+    background: rgba(15, 98, 254, 0.04);
+  }
+
+  .q-factor-card--top .q-factor-card__rank {
+    background: var(--color-action-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .q-factor-card--top .q-factor-card__name {
+    color: var(--color-action-primary);
+    font-weight: 600;
+  }
+
+  /* Quadrant divergence overview */
+  .quadrant-overview {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 12px var(--space-lg);
+    background: rgba(138, 63, 252, 0.04);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .quadrant-overview__label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-accent-purple);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .quadrant-overview__items {
+    display: flex;
+    gap: var(--space-sm);
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .quadrant-overview__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+    cursor: default;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .quadrant-overview__item:hover {
+    border-color: var(--color-accent-purple);
+    box-shadow: 0 2px 8px rgba(138, 63, 252, 0.12);
+  }
+
+  .quadrant-overview__tooltip {
+    position: fixed;
+    background: var(--color-gray-90);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: nowrap;
+    z-index: 9999;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    pointer-events: none;
+  }
+
+  .quadrant-overview__tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: var(--color-gray-90);
+  }
+
+  .quadrant-overview__tooltip--above::before {
+    bottom: auto;
+    top: 100%;
+    border-bottom-color: transparent;
+    border-top-color: var(--color-gray-90);
+  }
+
+  .quadrant-overview__tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .quadrant-overview__tooltip-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .quadrant-overview__tooltip-role {
+    font-weight: 500;
+    min-width: 42px;
+  }
+
+  .quadrant-overview__tooltip-val {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .quadrant-overview__item-name {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    font-size: 16px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quadrant-overview__item-score {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--color-accent-purple);
+    padding: 3px 8px;
+    background: rgba(138, 63, 252, 0.08);
+    border-radius: var(--radius-sm);
+  }
+
+  .panoramic-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-bottom: var(--space-lg);
+  }
+
+  .panoramic-header {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panoramic-header__left {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
+
+  .panoramic-dim-toggle {
+    display: flex;
+    background: var(--color-gray-10);
+    border-radius: var(--radius-md);
+    padding: 2px;
+    border: 1px solid var(--color-border);
+  }
+
+  .panoramic-dim-toggle__btn {
+    padding: 4px 12px;
+    border: none;
+    background: transparent;
+    font-size: var(--text-xs);
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.15s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .panoramic-dim-toggle__btn:hover {
+    color: var(--color-text-primary);
+  }
+
+  .panoramic-dim-toggle__btn--active {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  #panoramic-chart {
+    width: 100%;
+    height: 380px;
+  }
+
+  .domain-legend {
+    display: flex;
+    border-top: 1px solid var(--color-border);
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+
+  .domain-legend__item {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 8px 8px;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    border-right: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .domain-legend__item:last-child {
+    border-right: none;
+  }
+
+  .domain-legend__item:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .domain-legend__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ===== REGION COMPARISON ===== */
+  .region-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-bottom: var(--space-lg);
+  }
+
+  .region-header {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Region common factors overview */
+  .region-common {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 10px var(--space-lg);
+    background: rgba(15, 98, 254, 0.04);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .region-common__label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--seed-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .region-common__items {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .region-common__item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    cursor: default;
+    position: relative;
+  }
+
+  .region-common__item:hover {
+    border-color: var(--seed-primary);
+    box-shadow: 0 2px 8px rgba(15, 98, 254, 0.12);
+  }
+
+  .region-common__item-rank {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--color-text-inverse);
+    background: var(--seed-primary);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .region-common__item-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .region-common__item-score {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--seed-primary);
+    padding: 2px 6px;
+    background: rgba(15, 98, 254, 0.08);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .region-common__item-count {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .region-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .region-card {
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .region-card:nth-child(5n) { border-right: none; }
+  .region-card:nth-last-child(-n+5) { border-bottom: none; }
+
+  .region-card__header {
+    padding: 10px 12px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    background: var(--color-gray-10);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+
+  .region-card__list {
+    flex: 1;
+    padding: 4px 0;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+
+  .region-card__list::-webkit-scrollbar {
+    width: 3px;
+  }
+  .region-card__list::-webkit-scrollbar-thumb {
+    background: var(--color-gray-30);
+    border-radius: 2px;
+  }
+
+  .region-factor {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 11px;
+    line-height: 1.35;
+    transition: background 0.1s ease;
+  }
+
+  .region-factor:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .region-factor__rank {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-gray-10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+
+  .region-factor__rank--top {
+    background: var(--color-action-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .region-factor__name {
+    flex: 1;
+    color: var(--color-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .region-factor__score {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+    padding: 1px 5px;
+    background: var(--color-gray-10);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .charts-area {
+      grid-template-columns: 1fr;
+    }
+    .summary-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar styling */
+  .data-table-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .data-table-scroll::-webkit-scrollbar-track {
+    background: var(--color-gray-10);
+  }
+  .data-table-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-gray-30);
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" data-component="Header Navigation" data-od-id="header">
+  <h1 class="site-header__title">昊铂埃安营销体系关键影响因素调研全景分析</h1>
+  <div class="site-header__controls">
+    <div class="role-filter" data-component="Role Filter" data-od-id="role-filter">
+      <span class="role-filter__label">角色筛选</span>
+      <button class="role-chip role-chip--active" data-role="hq" aria-pressed="true">
+        <span class="role-chip__dot"></span>总部
+      </button>
+      <button class="role-chip role-chip--active" data-role="region" aria-pressed="true">
+        <span class="role-chip__dot"></span>区域
+      </button>
+      <button class="role-chip role-chip--active" data-role="investor" aria-pressed="true">
+        <span class="role-chip__dot"></span>门店
+      </button>
+    </div>
+    <div class="dim-toggle" data-component="Dimension Toggle" data-od-id="dim-toggle">
+      <button class="dim-toggle__btn dim-toggle__btn--active" data-dim="importance">重要度</button>
+      <button class="dim-toggle__btn" data-dim="urgency">紧迫度</button>
+      <button class="dim-toggle__btn" data-dim="both">双维度</button>
+    </div>
+    <a href="survey.html" style="margin-left:12px;padding:6px 14px;background:var(--color-green-60);color:white;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;text-decoration:none;white-space:nowrap;">填写问卷</a>
+    <span id="data-source-badge" style="margin-left:8px;font-size:11px;padding:3px 8px;border-radius:10px;background:#E0E0E0;color:#525252;white-space:nowrap;">模拟数据</span>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="main-content" data-component="Main Content" data-od-id="main-content">
+
+  <!-- Sample Size Bar -->
+  <div class="sample-bar" id="sample-bar" data-component="Sample Size" data-od-id="sample-size"></div>
+
+  <!-- Summary Cards -->
+  <section class="summary-cards" data-component="Summary Cards" data-od-id="summary-cards">
+    <div class="summary-card summary-card--accent">
+      <div class="summary-card__label">最高重要度因素</div>
+      <div class="summary-card__list" id="top-importance-list"></div>
+    </div>
+    <div class="summary-card summary-card--warning">
+      <div class="summary-card__label">最高紧迫度因素</div>
+      <div class="summary-card__list" id="top-urgency-list"></div>
+    </div>
+    <div class="summary-card summary-card--danger">
+      <div class="summary-card__label">重要-紧迫差距最大</div>
+      <div class="summary-card__list" id="top-gap-list"></div>
+    </div>
+    <div class="summary-card summary-card--diverge">
+      <div class="summary-card__label">角色分歧最大</div>
+      <div class="summary-card__list" id="top-diverge-list"></div>
+    </div>
+    <div class="summary-card summary-card--consensus">
+      <div class="summary-card__label">三方共识焦点</div>
+      <div class="summary-card__list" id="consensus-list"></div>
+    </div>
+  </section>
+
+  <!-- Charts Area -->
+  <section class="charts-area" data-component="Charts Area" data-od-id="charts-area">
+    <!-- Radar Chart -->
+    <div class="chart-panel">
+      <div class="chart-panel__header">
+        <div>
+          <div class="chart-panel__title">领域总览</div>
+          <div class="chart-panel__subtitle">9大维度总览</div>
+        </div>
+      </div>
+      <div class="chart-panel__body">
+        <div id="radar-chart" role="img" aria-label="九大领域平均重要度和紧迫度雷达对比图"></div>
+      </div>
+    </div>
+
+    <!-- Comparison Bar Charts -->
+    <div class="chart-panel" data-component="Comparison Charts" data-od-id="comparison-charts">
+      <div class="chart-panel__header">
+        <div>
+          <div class="chart-panel__title">9大维度45项关键因素分析</div>
+          <div class="chart-panel__subtitle">选择领域查看各因素评分对比</div>
+        </div>
+      </div>
+      <div style="padding: 0 var(--space-lg); border-bottom: 1px solid var(--color-border);">
+        <div class="domain-tabs" id="domain-tabs" role="tablist" aria-label="领域切换"></div>
+      </div>
+      <div class="comparison-charts" id="comparison-container">
+        <div class="comparison-chart-box--full" id="comparison-chart-main" role="img" aria-label="角色评分并排柱状图"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quadrant View (Priority Matrix Columns) -->
+  <section class="quadrant-section" data-component="Priority Matrix" data-od-id="quadrant-view">
+    <div class="quadrant-header">
+      <div class="panoramic-header__left">
+        <div class="chart-panel__title">重要度-紧迫度优先级矩阵</div>
+        <div class="chart-panel__subtitle">按50%权重加权总分排序（满分5分）</div>
+      </div>
+    </div>
+    <div class="quadrant-overview" id="quadrant-overview"></div>
+    <div class="quadrant-grid" id="quadrant-grid" data-component="Quadrant Grid" data-od-id="quadrant-grid"></div>
+  </section>
+
+  <!-- Panoramic View -->
+  <section class="panoramic-section" data-component="Panoramic View" data-od-id="panoramic-view">
+    <div class="panoramic-header">
+      <div class="panoramic-header__left">
+        <div class="chart-panel__title">全景视图</div>
+        <div class="chart-panel__subtitle">45项关键因素全景视图（关键因素分数 &gt; 3.5分显示因素名称）</div>
+      </div>
+      <div class="panoramic-dim-toggle" data-component="Panoramic Dim Toggle" data-od-id="panoramic-dim-toggle">
+        <button class="panoramic-dim-toggle__btn panoramic-dim-toggle__btn--active" data-panoramic-dim="importance">重要度</button>
+        <button class="panoramic-dim-toggle__btn" data-panoramic-dim="urgency">紧迫度</button>
+        <button class="panoramic-dim-toggle__btn" data-panoramic-dim="both">双维度</button>
+      </div>
+    </div>
+    <div style="padding: 0 var(--space-md);">
+      <div id="panoramic-chart" role="img" aria-label="全部45项因素重要度/紧迫度全景折线图"></div>
+    </div>
+    <div class="domain-legend" id="domain-legend" data-component="Domain Legend" data-od-id="domain-legend"></div>
+  </section>
+
+  <!-- Region Comparison -->
+  <section class="region-section" data-component="Region Comparison" data-od-id="region-view">
+    <div class="region-header">
+      <div class="panoramic-header__left">
+        <div class="chart-panel__title">区域视图分析</div>
+        <div class="chart-panel__subtitle">各区域最重要且紧迫的 Top 10 因素（加权总分排序）</div>
+      </div>
+    </div>
+    <div class="region-common" id="region-common"></div>
+    <div class="region-grid" id="region-grid"></div>
+  </section>
+
+  <!-- Data Table -->
+  <section class="data-table-section" data-component="Data Table" data-od-id="detail-table">
+    <div class="data-table-header" id="table-toggle" role="button" aria-expanded="false" tabindex="0">
+      <div class="data-table-header__left">
+        <div class="data-table-header__toggle" id="table-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="chart-panel__title">全部因素明细</div>
+        <span style="font-size:12px;color:var(--color-text-muted);">45项</span>
+      </div>
+      <div class="table-filters">
+        <select class="table-filter-select" id="table-domain-filter" aria-label="按领域筛选">
+          <option value="all">全部领域</option>
+        </select>
+        <select class="table-filter-select" id="table-sort-select" aria-label="排序方式">
+          <option value="domain">按领域</option>
+          <option value="importance-desc">重要度 高→低</option>
+          <option value="urgency-desc">紧迫度 高→低</option>
+          <option value="gap-desc">差距 大→小</option>
+          <option value="diverge-desc">分歧度 大→小</option>
+        </select>
+      </div>
+    </div>
+    <div class="data-table-body data-table-body--collapsed" id="table-body-container">
+      <div class="data-table-scroll">
+        <table id="detail-table">
+          <thead>
+            <tr>
+              <th>领域</th>
+              <th>因素名称</th>
+              <th style="text-align:center">总部</th>
+              <th style="text-align:center">区域</th>
+              <th style="text-align:center">门店</th>
+              <th style="text-align:center">平均重要度</th>
+              <th style="text-align:center">平均紧迫度</th>
+              <th style="text-align:center">重要-紧迫差距</th>
+              <th style="text-align:center">分歧度</th>
+            </tr>
+          </thead>
+          <tbody id="detail-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// CSS variable reader for ECharts configs (ECharts does not support CSS vars)
+const _cs = getComputedStyle(document.documentElement);
+const CV = {
+  blue: _cs.getPropertyValue('--role-region').trim(),
+  green: _cs.getPropertyValue('--role-investor').trim(),
+  orange: _cs.getPropertyValue('--role-hq').trim(),
+  text: _cs.getPropertyValue('--color-text-secondary').trim(),
+  textMuted: _cs.getPropertyValue('--color-text-muted').trim(),
+  border: _cs.getPropertyValue('--color-border').trim(),
+  bgLight: _cs.getPropertyValue('--color-gray-10').trim(),
+};
+
+// ===== DATA =====
+const DOMAINS = [
+  { id: 'team', name: '团队及绩效管理', factors: [
+    '店总经营能力', '岗位职责清晰度', '岗位能力培训', '核心团队梯队建设', '绩效设计及激励管理'
+  ]},
+  { id: 'product', name: '新产品上市管理', factors: [
+    '上市节奏清晰度', '产品卖点提炼', '竞品对比话术', '购车权益设计', '销售顾问上市培训'
+  ]},
+  { id: 'insight', name: '用户洞察与体验', factors: [
+    '区域市场目标客户洞察', '客户流失原因分析', '试乘试驾体验', '新车交付体验', '价格沟通透明度'
+  ]},
+  { id: 'retain', name: '客户维系与运营', factors: [
+    '高价值客户识别', '车主社群运营', '老客户活动运营', '客户推荐转介绍运营', '老客户口碑传播'
+  ]},
+  { id: 'traffic', name: '获客流量管理', factors: [
+    '总部线索支持', '区域广告投放/活动', '新媒体直播', '短视频获客', '外展/商超活动'
+  ]},
+  { id: 'convert', name: '转化成交管理', factors: [
+    '线索邀约管理', '产品价值讲解', '试驾体验转化', '战败客户复盘', '重点客户管理'
+  ]},
+  { id: 'profit', name: '门店盈利管理', factors: [
+    '单车毛利管理', '衍生业务(金融/保险)', '精品/附件销售', '置换业务收益', '事故车收益'
+  ]},
+  { id: 'policy', name: '商务政策管理', factors: [
+    '商务政策理解准确度', '政策应用与过程管控', '政策与经营质量关联度', '政策返利效率和透明度', '门店差异化政策支持'
+  ]},
+  { id: 'data', name: '经营数据与数字化', factors: [
+    '数据填报准确性', '区域经营数据对标分析', '经营管理看板可视化', '门店经营数据自动预警', '智能化销售过程质检'
+  ]}
+];
+
+// Deterministic pseudo-random score generator
+function seedRand(seed) {
+  let x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+// Generate scores for all 45 factors — distributed across 4 quadrants with natural variation
+const DATA = [];
+let globalIdx = 0;
+// Quadrant assignment: shuffled to avoid periodic high-low rhythm
+// Q0: High Imp + High Urg | Q1: Low Imp + High Urg | Q2: Low Imp + Low Urg | Q3: High Imp + Low Urg
+const quadrantAssign = [];
+for (let i = 0; i < 45; i++) { quadrantAssign.push(i % 4); }
+// Fisher-Yates shuffle with deterministic seed for natural-looking order
+for (let i = 44; i > 0; i--) {
+  var j = Math.floor(seedRand(i * 31 + 17) * (i + 1));
+  var tmp = quadrantAssign[i];
+  quadrantAssign[i] = quadrantAssign[j];
+  quadrantAssign[j] = tmp;
+}
+
+DOMAINS.forEach((domain, di) => {
+  domain.factors.forEach((factor, fi) => {
+    const s = globalIdx;
+    const q = quadrantAssign[s]; // quadrant index
+
+    // Base ranges per quadrant (midpoint = 2.5)
+    let impBase, impRange, urgBase, urgRange;
+    if (q === 0) { impBase = 2.8; impRange = 2.0; urgBase = 2.8; urgRange = 2.0; }       // High-High
+    else if (q === 1) { impBase = 0.8; impRange = 1.5; urgBase = 2.8; urgRange = 2.0; }   // Low-High
+    else if (q === 2) { impBase = 0.8; impRange = 1.5; urgBase = 0.8; urgRange = 1.5; }   // Low-Low
+    else { impBase = 2.8; impRange = 2.0; urgBase = 0.8; urgRange = 1.5; }                 // High-Low
+
+    // Extra per-factor noise for natural variation and quadrant overlap
+    var impNoise = (seedRand(s * 41 + 97) - 0.5) * 0.8;
+    var urgNoise = (seedRand(s * 43 + 101) - 0.5) * 0.8;
+
+    // Each role gets slight variation around the quadrant base
+    const impRegion = Math.min(5, Math.max(0.5, Math.round((impBase + seedRand(s * 7 + 1) * impRange + impNoise) * 10) / 10));
+    const impInvestor = Math.min(5, Math.max(0.5, Math.round((impBase + seedRand(s * 7 + 2) * impRange * 0.95 + impNoise * 0.8) * 10) / 10));
+    const impHQ = Math.min(5, Math.max(0.5, Math.round((impBase + seedRand(s * 7 + 3) * impRange * 0.9 + impNoise * 0.6) * 10) / 10));
+
+    const urgRegion = Math.min(5, Math.max(0.5, Math.round((urgBase + seedRand(s * 13 + 4) * urgRange + urgNoise) * 10) / 10));
+    const urgInvestor = Math.min(5, Math.max(0.5, Math.round((urgBase + seedRand(s * 13 + 5) * urgRange * 0.95 + urgNoise * 0.8) * 10) / 10));
+    const urgHQ = Math.min(5, Math.max(0.5, Math.round((urgBase + seedRand(s * 13 + 6) * urgRange * 0.9 + urgNoise * 0.6) * 10) / 10));
+
+    DATA.push({
+      domainId: domain.id,
+      domainName: domain.name,
+      factor,
+      importance: { region: impRegion, investor: impInvestor, hq: impHQ },
+      urgency: { region: urgRegion, investor: urgInvestor, hq: urgHQ }
+    });
+    globalIdx++;
+  });
+});
+
+// ===== REGION DATA =====
+const REGIONS = ['北京专区', '东北区', '湖南专区', '华北区', '华东区', '华南区', '华中区', '山东专区', '西区', '云贵专区'];
+const REGION_DATA = {};
+REGIONS.forEach(function(name, ri) {
+  REGION_DATA[name] = DATA.map(function(f, fi) {
+    var impVar = (seedRand(ri * 1001 + fi * 7 + 500) - 0.5) * 1.2;
+    var urgVar = (seedRand(ri * 1001 + fi * 13 + 800) - 0.5) * 1.2;
+    return {
+      factor: f.factor,
+      domainName: f.domainName,
+      imp: {
+        region: Math.min(5, Math.max(0.5, Math.round((f.importance.region + impVar) * 10) / 10)),
+        investor: Math.min(5, Math.max(0.5, Math.round((f.importance.investor + impVar) * 10) / 10)),
+        hq: Math.min(5, Math.max(0.5, Math.round((f.importance.hq + impVar) * 10) / 10))
+      },
+      urg: {
+        region: Math.min(5, Math.max(0.5, Math.round((f.urgency.region + urgVar) * 10) / 10)),
+        investor: Math.min(5, Math.max(0.5, Math.round((f.urgency.investor + urgVar) * 10) / 10)),
+        hq: Math.min(5, Math.max(0.5, Math.round((f.urgency.hq + urgVar) * 10) / 10))
+      }
+    };
+  });
+});
+
+function renderRegionComparison() {
+  var grid = document.getElementById('region-grid');
+  var commonEl = document.getElementById('region-common');
+  var activeKeys = [];
+  if (activeRoles.region) activeKeys.push('region');
+  if (activeRoles.investor) activeKeys.push('investor');
+  if (activeRoles.hq) activeKeys.push('hq');
+
+  // Compute each region's scored factors and top 10
+  var regionTop10 = {};
+  var factorFreq = {};
+  var factorTotalSum = {};
+  var factorTotalCount = {};
+
+  REGIONS.forEach(function(name) {
+    var factors = REGION_DATA[name].map(function(f) {
+      var impVals = activeKeys.map(function(k) { return f.imp[k]; });
+      var urgVals = activeKeys.map(function(k) { return f.urg[k]; });
+      var importance = impVals.length ? avg(impVals) : 0;
+      var urgency = urgVals.length ? avg(urgVals) : 0;
+      return {
+        factor: f.factor,
+        domainName: f.domainName,
+        importance: importance,
+        urgency: urgency,
+        total: Math.round((importance * 0.5 + urgency * 0.5) * 100) / 100
+      };
+    });
+    factors.sort(function(a, b) { return b.total - a.total; });
+    var top10 = factors.slice(0, 10);
+    regionTop10[name] = top10;
+
+    // Count frequency and accumulate totals for common factors
+    top10.forEach(function(f) {
+      factorFreq[f.factor] = (factorFreq[f.factor] || 0) + 1;
+      factorTotalSum[f.factor] = (factorTotalSum[f.factor] || 0) + f.total;
+      factorTotalCount[f.factor] = (factorTotalCount[f.factor] || 0) + 1;
+    });
+  });
+
+  // Sort by frequency desc, then by avg total desc
+  var commonFactors = Object.keys(factorFreq).map(function(factor) {
+    return {
+      factor: factor,
+      freq: factorFreq[factor],
+      avgTotal: factorTotalSum[factor] / factorTotalCount[factor]
+    };
+  });
+  commonFactors.sort(function(a, b) {
+    return b.freq - a.freq || b.avgTotal - a.avgTotal;
+  });
+  var top5Common = commonFactors.slice(0, 5);
+
+  // Render common factors overview
+  commonEl.innerHTML = '<span class="region-common__label">跨区域共性因素 Top 5</span>' +
+    '<div class="region-common__items">' +
+    top5Common.map(function(f, i) {
+      return '<div class="region-common__item">' +
+        '<span class="region-common__item-rank">' + (i + 1) + '</span>' +
+        '<span class="region-common__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
+        '<span class="region-common__item-score">' + f.avgTotal.toFixed(1) + '</span>' +
+        '<span class="region-common__item-count">' + f.freq + '/10 区域</span>' +
+        '</div>';
+    }).join('') +
+    '</div>';
+
+  // Render region grid
+  grid.innerHTML = REGIONS.map(function(name) {
+    var top10 = regionTop10[name];
+    var rows = top10.map(function(f, rank) {
+      return '<div class="region-factor">' +
+        '<span class="region-factor__rank' + (rank < 3 ? ' region-factor__rank--top' : '') + '">' + (rank + 1) + '</span>' +
+        '<span class="region-factor__name" title="' + f.factor + '">' + f.factor + '</span>' +
+        '<span class="region-factor__score">' + f.total.toFixed(1) + '</span>' +
+        '</div>';
+    }).join('');
+    return '<div class="region-card">' +
+      '<div class="region-card__header">' + name + '</div>' +
+      '<div class="region-card__list">' + rows + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+// ===== SAMPLE SIZE DATA =====
+const SAMPLE_DATA = {
+  regions: REGIONS.map(function(name, ri) {
+    return {
+      name: name,
+      region: Math.round(15 + seedRand(ri * 200 + 1) * 20),
+      investor: Math.round(6 + seedRand(ri * 200 + 2) * 12)
+    };
+  }),
+  hq: Math.round(22 + seedRand(99) * 18)
+};
+
+function renderSampleBar() {
+  var el = document.getElementById('sample-bar');
+  var totalRegion = 0;
+  var totalInvestor = 0;
+  var regionItems = SAMPLE_DATA.regions.map(function(r) {
+    totalRegion += r.region;
+    totalInvestor += r.investor;
+    return '<div class="sample-bar__region">' +
+      '<span class="sample-bar__region-name">' + r.name + '</span>' +
+      '<div class="sample-bar__counts">' +
+        '<span class="sample-bar__count sample-bar__count--region">' +
+          '<span class="sample-bar__dot sample-bar__dot--region"></span>' + r.region +
+        '</span>' +
+        '<span class="sample-bar__count sample-bar__count--investor">' +
+          '<span class="sample-bar__dot sample-bar__dot--investor"></span>' + r.investor +
+        '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  el.innerHTML =
+    '<div class="sample-bar__label">样本量</div>' +
+    '<div class="sample-bar__regions">' + regionItems + '</div>' +
+    '<div class="sample-bar__hq">' +
+      '<span class="sample-bar__hq-label">总部</span>' +
+      '<span class="sample-bar__hq-count">' + SAMPLE_DATA.hq + '</span>' +
+    '</div>' +
+    '<div class="sample-bar__total">' +
+      '<span class="sample-bar__total-label">区域合计</span>' +
+      '<span class="sample-bar__total-value sample-bar__total-value--region">' +
+        '<span class="sample-bar__dot sample-bar__dot--region"></span>' + totalRegion +
+      '</span>' +
+    '</div>' +
+    '<div class="sample-bar__total">' +
+      '<span class="sample-bar__total-label">门店合计</span>' +
+      '<span class="sample-bar__total-value sample-bar__total-value--investor">' +
+        '<span class="sample-bar__dot sample-bar__dot--investor"></span>' + totalInvestor +
+      '</span>' +
+    '</div>';
+}
+
+// ===== STATE =====
+let activeRoles = { region: true, investor: true, hq: true };
+let activeDim = 'importance'; // 'importance' | 'urgency' | 'both'
+let activeDomain = 0; // index into DOMAINS
+let tableOpen = false;
+let tableFilter = 'all';
+let tableSort = 'domain';
+
+// ===== HELPERS =====
+function avg(arr) { return arr.reduce((a,b) => a+b, 0) / arr.length; }
+function stdDev(arr) {
+  const m = avg(arr);
+  return Math.sqrt(arr.reduce((s, v) => s + (v-m)*(v-m), 0) / arr.length);
+}
+
+function getAvgImportance(f) {
+  const vals = [];
+  if (activeRoles.region) vals.push(f.importance.region);
+  if (activeRoles.investor) vals.push(f.importance.investor);
+  if (activeRoles.hq) vals.push(f.importance.hq);
+  return vals.length ? avg(vals) : 0;
+}
+function getAvgUrgency(f) {
+  const vals = [];
+  if (activeRoles.region) vals.push(f.urgency.region);
+  if (activeRoles.investor) vals.push(f.urgency.investor);
+  if (activeRoles.hq) vals.push(f.urgency.hq);
+  return vals.length ? avg(vals) : 0;
+}
+function getGap(f) { return Math.abs(getAvgImportance(f) - getAvgUrgency(f)); }
+function getDiverge(f, dim) {
+  const vals = [];
+  if (activeRoles.region) vals.push(f[dim].region);
+  if (activeRoles.investor) vals.push(f[dim].investor);
+  if (activeRoles.hq) vals.push(f[dim].hq);
+  return vals.length > 1 ? stdDev(vals) : 0;
+}
+function getOverallDiverge(f) {
+  return Math.max(getDiverge(f, 'importance'), getDiverge(f, 'urgency'));
+}
+
+// ===== SUMMARY CARDS =====
+function updateSummaryCards() {
+  function renderList(containerId, items) {
+    var el = document.getElementById(containerId);
+    el.innerHTML = items.map(function(item, i) {
+      return '<div class="summary-card__item">' +
+        '<span class="summary-card__item-rank">' + (i + 1) + '</span>' +
+        '<span class="summary-card__item-name" title="' + item.name + '">' + item.name + '</span>' +
+        '<span class="summary-card__item-score">' + item.score + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  // Top 3 importance
+  var sortedImp = DATA.slice().sort(function(a, b) { return getAvgImportance(b) - getAvgImportance(a); });
+  renderList('top-importance-list', sortedImp.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getAvgImportance(f).toFixed(1) };
+  }));
+
+  // Top 3 urgency
+  var sortedUrg = DATA.slice().sort(function(a, b) { return getAvgUrgency(b) - getAvgUrgency(a); });
+  renderList('top-urgency-list', sortedUrg.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getAvgUrgency(f).toFixed(1) };
+  }));
+
+  // Top 3 gap
+  var sortedGap = DATA.slice().sort(function(a, b) { return getGap(b) - getGap(a); });
+  renderList('top-gap-list', sortedGap.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getGap(f).toFixed(1) };
+  }));
+
+  // Top 3 divergence
+  var sortedDiv = DATA.slice().sort(function(a, b) { return getOverallDiverge(b) - getOverallDiverge(a); });
+  renderList('top-diverge-list', sortedDiv.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
+  }));
+
+  // Top 3 consensus (lowest divergence)
+  var sortedCon = DATA.slice().sort(function(a, b) { return getOverallDiverge(a) - getOverallDiverge(b); });
+  renderList('consensus-list', sortedCon.slice(0, 3).map(function(f) {
+    return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
+  }));
+}
+
+// ===== RADAR CHART =====
+let radarChart;
+function initRadarChart() {
+  radarChart = echarts.init(document.getElementById('radar-chart'));
+  updateRadarChart();
+}
+
+function updateRadarChart() {
+  const indicator = DOMAINS.map(d => ({
+    name: d.name.replace(/管理$|与运营$|与体验$|与数字化$/, ''),
+    max: 5
+  }));
+
+  // Compute domain averages
+  const impByDomain = DOMAINS.map((d, di) => {
+    const factors = DATA.filter(f => f.domainId === d.id);
+    return avg(factors.map(f => getAvgImportance(f)));
+  });
+  const urgByDomain = DOMAINS.map((d, di) => {
+    const factors = DATA.filter(f => f.domainId === d.id);
+    return avg(factors.map(f => getAvgUrgency(f)));
+  });
+
+  const series = [];
+  if (activeDim === 'importance' || activeDim === 'both') {
+    series.push({
+      value: impByDomain.map(v => Math.round(v * 10) / 10),
+      name: '重要度',
+      areaStyle: { opacity: 0.12 },
+      lineStyle: { width: 2 },
+      itemStyle: { color: CV.blue }
+    });
+  }
+  if (activeDim === 'urgency' || activeDim === 'both') {
+    series.push({
+      value: urgByDomain.map(v => Math.round(v * 10) / 10),
+      name: '紧迫度',
+      areaStyle: { opacity: 0.1 },
+      lineStyle: { width: 2, type: 'dashed' },
+      itemStyle: { color: CV.orange }
+    });
+  }
+
+  radarChart.setOption({
+    tooltip: {
+      trigger: 'item',
+      textStyle: { fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif', fontSize: 13 }
+    },
+    legend: {
+      bottom: 0,
+      textStyle: { fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif', fontSize: 12, color: CV.text },
+      itemWidth: 16,
+      itemHeight: 8
+    },
+    radar: {
+      indicator,
+      center: ['50%', '46%'],
+      radius: '68%',
+      splitNumber: 5,
+      axisName: {
+        color: CV.text,
+        fontSize: 11,
+        fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif'
+      },
+      splitLine: { lineStyle: { color: CV.border } },
+      splitArea: { areaStyle: { color: ['rgba(244,244,244,0.4)', 'rgba(255,255,255,0.6)'] } },
+      axisLine: { lineStyle: { color: CV.border } }
+    },
+    series: [{
+      type: 'radar',
+      data: series,
+      symbol: 'circle',
+      symbolSize: 5
+    }]
+  }, true);
+}
+
+// ===== DOMAIN TABS =====
+function renderDomainTabs() {
+  const container = document.getElementById('domain-tabs');
+  container.innerHTML = '';
+  DOMAINS.forEach((d, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'domain-tab' + (i === activeDomain ? ' domain-tab--active' : '');
+    btn.textContent = d.name.replace(/管理$|与运营$|与体验$|与数字化$/, '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === activeDomain ? 'true' : 'false');
+    btn.addEventListener('click', () => {
+      activeDomain = i;
+      renderDomainTabs();
+      updateComparisonChart();
+    });
+    container.appendChild(btn);
+  });
+}
+
+// ===== COMPARISON CHART =====
+let compChart;
+function initComparisonChart() {
+  compChart = echarts.init(document.getElementById('comparison-chart-main'));
+  updateComparisonChart();
+}
+
+function updateComparisonChart() {
+  const domain = DOMAINS[activeDomain];
+  const factors = DATA.filter(f => f.domainId === domain.id);
+  const factorNames = factors.map(f => f.factor);
+
+  const isDouble = activeDim === 'both';
+  const dims = isDouble ? ['importance', 'urgency'] : [activeDim];
+  const dimLabels = { importance: '重要度', urgency: '紧迫度' };
+
+  const seriesData = [];
+  const roleKeys = [];
+  const roleLabels = { region: '区域', investor: '门店', hq: '总部' };
+  const roleColors = { region: CV.blue, investor: CV.green, hq: CV.orange };
+
+  if (activeRoles.hq) roleKeys.push('hq');
+  if (activeRoles.region) roleKeys.push('region');
+  if (activeRoles.investor) roleKeys.push('investor');
+
+  dims.forEach(dim => {
+    const isUrgLine = isDouble && dim === 'urgency';
+    roleKeys.forEach(role => {
+      const base = {
+        name: roleLabels[role] + (isDouble ? ' - ' + dimLabels[dim] : ''),
+        data: factors.map(f => f[dim][role]),
+        itemStyle: { color: roleColors[role] },
+        emphasis: {
+          itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.15)' }
+        }
+      };
+      if (isUrgLine) {
+        seriesData.push(Object.assign(base, {
+          type: 'line',
+          smooth: 0.3,
+          symbol: 'circle',
+          symbolSize: 7,
+          lineStyle: { width: 2.5, type: 'dashed' },
+          itemStyle: { color: roleColors[role], borderWidth: 2, borderColor: '#fff' }
+        }));
+      } else {
+        seriesData.push(Object.assign(base, {
+          type: 'bar',
+          barGap: '10%',
+          barCategoryGap: '35%'
+        }));
+      }
+    });
+  });
+
+  compChart.setOption({
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      textStyle: { fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif', fontSize: 13 },
+      formatter: function(params) {
+        let html = '<div style="font-weight:600;margin-bottom:6px;">' + params[0].name + '</div>';
+        params.forEach(p => {
+          const isLine = p.seriesName.includes('紧迫');
+          const indicator = isLine
+            ? '<span style="display:inline-block;width:14px;height:0;border-top:2.5px dashed ' + p.color + ';"></span>'
+            : '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + p.color + ';"></span>';
+          html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0;">' +
+            indicator +
+            '<span>' + p.seriesName + ':</span>' +
+            '<span style="font-weight:600;margin-left:auto;">' + p.value.toFixed(1) + '</span></div>';
+        });
+        return html;
+      }
+    },
+    legend: {
+      top: 0,
+      textStyle: { fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif', fontSize: 12, color: CV.text },
+      itemWidth: 14,
+      itemHeight: 10,
+      itemGap: 16
+    },
+    grid: {
+      top: 40,
+      left: 16,
+      right: 24,
+      bottom: 12,
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: factorNames,
+      axisLabel: {
+        fontSize: 12,
+        color: CV.text,
+        fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif',
+        interval: 0,
+        rotate: factorNames.some(n => n.length > 6) ? 15 : 0
+      },
+      axisLine: { lineStyle: { color: CV.border } },
+      axisTick: { show: false }
+    },
+    yAxis: {
+      type: 'value',
+      max: 5,
+      min: 0,
+      splitNumber: 5,
+      axisLabel: {
+        fontSize: 11,
+        color: CV.textMuted,
+        fontFamily: 'IBM Plex Sans, monospace'
+      },
+      splitLine: { lineStyle: { color: CV.bgLight } },
+      axisLine: { show: false },
+      axisTick: { show: false }
+    },
+    series: seriesData,
+    animationDuration: 400,
+    animationEasing: 'cubicOut'
+  }, true);
+}
+
+// ===== PANORAMIC CHART =====
+let panoramicChart;
+let panoramicDim = 'importance'; // independent toggle for panoramic view
+
+const DOMAIN_COLORS = [
+  '#0043CE', // 团队及绩效管理 - vivid blue
+  '#198038', // 新产品上市管理 - green
+  '#EB6200', // 用户洞察与体验 - orange
+  '#8A3FFC', // 客户维系与运营 - purple
+  '#DA1E28', // 获客流量管理 - red
+  '#0072C3', // 转化成交管理 - sky blue
+  '#005D5D', // 门店盈利管理 - teal
+  '#BA4E00', // 商务政策管理 - brown-orange
+  '#6929C4'  // 经营数据与数字化 - violet
+];
+
+function getPanoramicScore(f, dim) {
+  const vals = [];
+  if (activeRoles.region) vals.push(f[dim].region);
+  if (activeRoles.investor) vals.push(f[dim].investor);
+  if (activeRoles.hq) vals.push(f[dim].hq);
+  return vals.length ? avg(vals) : 0;
+}
+
+function initPanoramicChart() {
+  panoramicChart = echarts.init(document.getElementById('panoramic-chart'));
+  updatePanoramicChart();
+}
+
+function updatePanoramicChart() {
+  const allFactors = [];
+  const domainBoundaries = []; // track domain start/end indices
+  let factorIdx = 0;
+
+  DOMAINS.forEach((domain, di) => {
+    const startIdx = factorIdx;
+    domain.factors.forEach((factor, fi) => {
+      const dataItem = DATA.find(d => d.domainId === domain.id && d.factor === factor);
+      allFactors.push({
+        name: factor,
+        domainId: domain.id,
+        domainName: domain.name,
+        domainIndex: di,
+        score: dataItem ? (panoramicDim === 'both' ? getPanoramicScore(dataItem, 'importance') : getPanoramicScore(dataItem, panoramicDim)) : 0,
+        urgencyScore: dataItem ? getPanoramicScore(dataItem, 'urgency') : 0,
+        importanceScore: dataItem ? getPanoramicScore(dataItem, 'importance') : 0
+      });
+      factorIdx++;
+    });
+    domainBoundaries.push({ start: startIdx, end: factorIdx - 1, name: domain.name, color: DOMAIN_COLORS[di] });
+  });
+
+  const xLabels = allFactors.map(f => f.name);
+  const isDouble = panoramicDim === 'both';
+  const scores = isDouble ? allFactors.map(f => f.importanceScore) : allFactors.map(f => f.score);
+  const urgScores = isDouble ? allFactors.map(f => f.urgencyScore) : [];
+
+  // Build markArea data for domain background bands
+  const markAreaData = domainBoundaries.map((db, i) => ([
+    {
+      name: db.name,
+      xAxis: db.start - 0.5,
+      itemStyle: {
+        color: db.color,
+        opacity: (i % 2 === 0) ? 0.06 : 0.03
+      },
+      label: { show: false }
+    },
+    { xAxis: db.end + 0.5 }
+  ]));
+
+  // Build markPoint data for alternating labels
+  const mpScoreKey = isDouble ? 'importanceScore' : 'score';
+  const markPointData = allFactors.map((f, i) => {
+    const isEven = i % 2 === 0;
+    const sc = f[mpScoreKey];
+    return {
+      coord: [i, sc],
+      name: f.name,
+      symbol: 'circle',
+      symbolSize: 7,
+      value: sc.toFixed(1),
+      label: {
+        show: sc > 3.5,
+        position: isEven ? 'top' : 'bottom',
+        distance: isEven ? 12 : 12,
+        formatter: f.name,
+        fontSize: 10,
+        fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif',
+        color: CV.text,
+        rotate: 45
+      },
+      itemStyle: {
+        color: DOMAIN_COLORS[f.domainIndex]
+      }
+    };
+  });
+
+  // Build urgency markPoint data (no text labels, just dots) for 'both' mode
+  const urgMarkPointData = isDouble ? allFactors.map((f, i) => ({
+    coord: [i, f.urgencyScore],
+    name: f.name,
+    symbol: 'circle',
+    symbolSize: 5,
+    value: f.urgencyScore.toFixed(1),
+    label: { show: false },
+    itemStyle: {
+      color: DOMAIN_COLORS[f.domainIndex]
+    }
+  })) : [];
+
+  let series;
+  if (isDouble) {
+    series = [
+      {
+        name: '重要度',
+        type: 'line',
+        data: scores,
+        smooth: 0.3,
+        symbol: 'circle',
+        symbolSize: 7,
+        lineStyle: { color: CV.blue, width: 2.5 },
+        itemStyle: {
+          color: function(params) {
+            return DOMAIN_COLORS[allFactors[params.dataIndex].domainIndex];
+          }
+        },
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(15, 98, 254, 0.12)' },
+              { offset: 1, color: 'rgba(15, 98, 254, 0.01)' }
+            ]
+          }
+        },
+        markArea: { silent: true, data: markAreaData },
+        markPoint: { data: markPointData, animation: false }
+      },
+      {
+        name: '紧迫度',
+        type: 'line',
+        data: urgScores,
+        smooth: 0.3,
+        symbol: 'circle',
+        symbolSize: 5,
+        lineStyle: { color: CV.orange, width: 2, type: 'dashed' },
+        itemStyle: {
+          color: function(params) {
+            const c = DOMAIN_COLORS[allFactors[params.dataIndex].domainIndex];
+            return c;
+          }
+        },
+        markPoint: { data: urgMarkPointData, animation: false }
+      }
+    ];
+  } else {
+    series = [{
+      type: 'line',
+      data: scores,
+      smooth: 0.3,
+      symbol: 'circle',
+      symbolSize: 7,
+      lineStyle: { color: CV.blue, width: 2.5 },
+      itemStyle: {
+        color: function(params) {
+          return DOMAIN_COLORS[allFactors[params.dataIndex].domainIndex];
+        }
+      },
+      areaStyle: {
+        color: {
+          type: 'linear',
+          x: 0, y: 0, x2: 0, y2: 1,
+          colorStops: [
+            { offset: 0, color: 'rgba(15, 98, 254, 0.15)' },
+            { offset: 1, color: 'rgba(15, 98, 254, 0.01)' }
+          ]
+        }
+      },
+      markArea: { silent: true, data: markAreaData },
+      markPoint: { data: markPointData, animation: false }
+    }];
+  }
+
+  panoramicChart.setOption({
+    tooltip: {
+      trigger: 'item',
+      textStyle: { fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif', fontSize: 13 },
+      formatter: function(params) {
+        const f = allFactors[params.dataIndex];
+        if (!f) return '';
+        if (isDouble) {
+          const seriesName = params.seriesName;
+          const val = seriesName === '重要度' ? f.importanceScore : f.urgencyScore;
+          return '<div style="font-weight:600;margin-bottom:4px;">' + f.name + '</div>' +
+            '<div style="color:' + CV.textMuted + ';font-size:12px;margin-bottom:4px;">' + f.domainName + '</div>' +
+            '<div>' + seriesName + '：<span style="font-weight:600;">' + val.toFixed(1) + '</span></div>';
+        }
+        const dimLabel = panoramicDim === 'importance' ? '重要度' : '紧迫度';
+        return '<div style="font-weight:600;margin-bottom:4px;">' + f.name + '</div>' +
+          '<div style="color:' + CV.textMuted + ';font-size:12px;margin-bottom:4px;">' + f.domainName + '</div>' +
+          '<div>' + dimLabel + '：<span style="font-weight:600;">' + f.score.toFixed(1) + '</span></div>';
+      }
+    },
+    legend: isDouble ? {
+      top: 6,
+      textStyle: { fontFamily: 'IBM Plex Sans SC, IBM Plex Sans, sans-serif', fontSize: 12, color: CV.text },
+      itemWidth: 20,
+      itemHeight: 3
+    } : undefined,
+    grid: {
+      top: isDouble ? 40 : 60,
+      left: 50,
+      right: 15,
+      bottom: 20,
+      containLabel: false
+    },
+    xAxis: {
+      type: 'category',
+      data: xLabels,
+      axisLabel: { show: false },
+      axisLine: { lineStyle: { color: CV.border } },
+      axisTick: { show: false },
+      boundaryGap: true
+    },
+    yAxis: {
+      type: 'value',
+      max: 5,
+      min: 0,
+      splitNumber: 5,
+      axisLabel: {
+        fontSize: 11,
+        color: CV.textMuted,
+        fontFamily: 'IBM Plex Sans, monospace'
+      },
+      splitLine: { lineStyle: { color: CV.bgLight } },
+      axisLine: { show: false },
+      axisTick: { show: false }
+    },
+    series: series,
+    animationDuration: 500,
+    animationEasing: 'cubicOut'
+  }, true);
+  alignDomainLegend();
+}
+
+function renderDomainLegend() {
+  const container = document.getElementById('domain-legend');
+  container.innerHTML = '';
+  DOMAINS.forEach((domain, i) => {
+    const shortName = domain.name.replace(/管理$|与运营$|与体验$|与数字化$/, '');
+    const item = document.createElement('div');
+    item.className = 'domain-legend__item';
+    item.innerHTML = '<span class="domain-legend__dot" style="background:' + DOMAIN_COLORS[i] + '"></span>' + shortName;
+    item.addEventListener('click', () => {
+      // Click to jump to this domain in the comparison chart
+      activeDomain = i;
+      renderDomainTabs();
+      updateComparisonChart();
+      document.querySelector('.charts-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    container.appendChild(item);
+  });
+}
+
+function alignDomainLegend() {
+  var legend = document.getElementById('domain-legend');
+  if (legend) {
+    legend.style.paddingLeft = '50px';
+    legend.style.paddingRight = '15px';
+  }
+}
+
+// Panoramic dimension toggle
+document.querySelectorAll('.panoramic-dim-toggle__btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.panoramic-dim-toggle__btn').forEach(b => b.classList.remove('panoramic-dim-toggle__btn--active'));
+    btn.classList.add('panoramic-dim-toggle__btn--active');
+    panoramicDim = btn.dataset.panoramicDim;
+    updatePanoramicChart();
+  });
+});
+
+// ===== QUADRANT PRIORITY MATRIX =====
+function initQuadrantChart() {
+  renderQuadrantMatrix();
+}
+
+function updateQuadrantChart() {
+  renderQuadrantMatrix();
+}
+
+function renderQuadrantMatrix() {
+  const midpoint = 2.5;
+  const grid = document.getElementById('quadrant-grid');
+
+  // Classify factors into 4 categories
+  const categories = {
+    q1: { label: '重要且紧迫', cssClass: 'q1', items: [] },
+    q2: { label: '重要不紧迫', cssClass: 'q2', items: [] },
+    q3: { label: '不重要但紧迫', cssClass: 'q3', items: [] },
+    q4: { label: '不重要也不紧迫', cssClass: 'q4', items: [] }
+  };
+
+  DATA.forEach(f => {
+    const imp = getAvgImportance(f);
+    const urg = getAvgUrgency(f);
+    const total = Math.round((imp * 0.5 + urg * 0.5) * 100) / 100;
+    const item = { ...f, imp, urg, total };
+
+    if (imp >= midpoint && urg >= midpoint) categories.q1.items.push(item);
+    else if (imp >= midpoint && urg < midpoint) categories.q2.items.push(item);
+    else if (imp < midpoint && urg >= midpoint) categories.q3.items.push(item);
+    else categories.q4.items.push(item);
+  });
+
+  // Sort each category by total descending
+  Object.values(categories).forEach(cat => {
+    cat.items.sort((a, b) => b.total - a.total);
+  });
+
+  // Divergence overview: top 5 most disputed factors from "重要且紧迫" (Q1)
+  function roleWeightedTotal(f) {
+    var region = f.importance.region * 0.5 + f.urgency.region * 0.5;
+    var investor = f.importance.investor * 0.5 + f.urgency.investor * 0.5;
+    var hq = f.importance.hq * 0.5 + f.urgency.hq * 0.5;
+    var vals = [];
+    if (activeRoles.region) vals.push(region);
+    if (activeRoles.investor) vals.push(investor);
+    if (activeRoles.hq) vals.push(hq);
+    return { region: region, investor: investor, hq: hq, div: vals.length > 1 ? stdDev(vals) : 0 };
+  }
+  var q1WithDiv = categories.q1.items.map(function(item) {
+    var rw = roleWeightedTotal(item);
+    return Object.assign({}, item, { diverge: rw.div, rwRegion: rw.region, rwInvestor: rw.investor, rwHq: rw.hq });
+  });
+  q1WithDiv.sort(function(a, b) { return b.diverge - a.diverge; });
+  var top5Div = q1WithDiv.slice(0, 5);
+  var roleColors = { region: '#0F62FE', investor: '#24A148', hq: '#EB6200' };
+  var roleNames = { region: '区域', investor: '门店', hq: '总部' };
+  var overviewEl = document.getElementById('quadrant-overview');
+  overviewEl.innerHTML = '<span class="quadrant-overview__label">重要且紧迫 · 角色分歧 Top 5</span>' +
+    '<div class="quadrant-overview__items">' +
+    top5Div.map(function(f) {
+      return '<div class="quadrant-overview__item" data-region="' + f.rwRegion.toFixed(2) + '" data-investor="' + f.rwInvestor.toFixed(2) + '" data-hq="' + f.rwHq.toFixed(2) + '">' +
+        '<span class="quadrant-overview__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
+        '<span class="quadrant-overview__item-score">' + f.diverge.toFixed(2) + '</span>' +
+        '</div>';
+    }).join('') +
+    '</div>';
+
+  // Tooltip event handlers
+  var ovTooltip = null;
+  overviewEl.querySelectorAll('.quadrant-overview__item').forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      var rect = el.getBoundingClientRect();
+      var rows = [
+        { key: 'hq', score: el.dataset.hq },
+        { key: 'region', score: el.dataset.region },
+        { key: 'investor', score: el.dataset.investor }
+      ];
+      var html = rows.map(function(r) {
+        return '<div class="quadrant-overview__tooltip-row">' +
+          '<span class="quadrant-overview__tooltip-dot" style="background:' + roleColors[r.key] + '"></span>' +
+          '<span class="quadrant-overview__tooltip-role">' + roleNames[r.key] + '</span>' +
+          '<span class="quadrant-overview__tooltip-val">' + r.score + '</span>' +
+        '</div>';
+      }).join('');
+      ovTooltip = document.createElement('div');
+      ovTooltip.className = 'quadrant-overview__tooltip';
+      ovTooltip.innerHTML = html;
+      document.body.appendChild(ovTooltip);
+      var tw = ovTooltip.offsetWidth;
+      var th = ovTooltip.offsetHeight;
+      var left = rect.left + rect.width / 2 - tw / 2;
+      var top = rect.bottom + 8;
+      if (left < 4) left = 4;
+      if (left + tw > window.innerWidth - 4) left = window.innerWidth - tw - 4;
+      if (top + th > window.innerHeight - 4) {
+        top = rect.top - th - 8;
+        ovTooltip.classList.add('quadrant-overview__tooltip--above');
+      }
+      ovTooltip.style.left = left + 'px';
+      ovTooltip.style.top = top + 'px';
+    });
+    el.addEventListener('mouseleave', function() {
+      if (ovTooltip) { ovTooltip.remove(); ovTooltip = null; }
+    });
+  });
+
+  // Render columns
+  const catOrder = ['q1', 'q2', 'q3', 'q4'];
+  grid.innerHTML = catOrder.map(key => {
+    const cat = categories[key];
+    const cards = cat.items.map((item, rank) => `
+      <div class="q-factor-card${rank < 3 ? ' q-factor-card--top' : ''}">
+        <span class="q-factor-card__rank">${rank + 1}</span>
+        <div class="q-factor-card__name">${item.factor}</div>
+        <div class="q-factor-card__scores">
+          <span class="q-factor-card__score">重要 <span class="q-factor-card__score-value">${item.imp.toFixed(1)}</span></span>
+          <span class="q-factor-card__score">紧迫 <span class="q-factor-card__score-value">${item.urg.toFixed(1)}</span></span>
+          <span class="q-factor-card__total">${item.total.toFixed(1)}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="quadrant-col">
+        <div class="quadrant-col__header quadrant-col__header--${cat.cssClass}">
+          ${cat.label}
+          <span class="quadrant-col__count">${cat.items.length} 项因素</span>
+        </div>
+        <div class="quadrant-col__list">${cards}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== DATA TABLE =====
+function renderTable() {
+  const tbody = document.getElementById('detail-tbody');
+  let filtered = [...DATA];
+
+  if (tableFilter !== 'all') {
+    filtered = filtered.filter(f => f.domainId === tableFilter);
+  }
+
+  // Sort
+  switch (tableSort) {
+    case 'importance-desc':
+      filtered.sort((a, b) => getAvgImportance(b) - getAvgImportance(a));
+      break;
+    case 'urgency-desc':
+      filtered.sort((a, b) => getAvgUrgency(b) - getAvgUrgency(a));
+      break;
+    case 'gap-desc':
+      filtered.sort((a, b) => getGap(b) - getGap(a));
+      break;
+    case 'diverge-desc':
+      filtered.sort((a, b) => getOverallDiverge(b) - getOverallDiverge(a));
+      break;
+    default:
+      // domain order
+      break;
+  }
+
+  tbody.innerHTML = filtered.map(f => {
+    const avgImp = getAvgImportance(f);
+    const avgUrg = getAvgUrgency(f);
+    const gap = getGap(f);
+    const diverge = getOverallDiverge(f);
+
+    let divergeClass = 'low';
+    if (diverge > 0.75) divergeClass = 'high';
+    else if (diverge > 0.4) divergeClass = 'medium';
+
+    const barWidth = v => Math.round(v / 5 * 60);
+
+    return `<tr>
+      <td><span class="domain-badge">${f.domainName}</span></td>
+      <td style="font-weight:500;">${f.factor}</td>
+      <td class="score-cell">
+        ${activeRoles.hq ? f.importance.hq.toFixed(1) + '<span class="score-bar score-bar--hq" style="width:' + barWidth(f.importance.hq) + 'px"></span>' : '—'}
+      </td>
+      <td class="score-cell">
+        ${activeRoles.region ? f.importance.region.toFixed(1) + '<span class="score-bar score-bar--region" style="width:' + barWidth(f.importance.region) + 'px"></span>' : '—'}
+      </td>
+      <td class="score-cell">
+        ${activeRoles.investor ? f.importance.investor.toFixed(1) + '<span class="score-bar score-bar--investor" style="width:' + barWidth(f.importance.investor) + 'px"></span>' : '—'}
+      </td>
+      <td class="score-cell" style="font-weight:600;">${avgImp.toFixed(1)}</td>
+      <td class="score-cell" style="font-weight:600;">${avgUrg.toFixed(1)}</td>
+      <td class="score-cell">${gap.toFixed(1)}</td>
+      <td class="score-cell"><span class="divergence-badge divergence-badge--${divergeClass}">${diverge.toFixed(2)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function initTableFilters() {
+  const select = document.getElementById('table-domain-filter');
+  DOMAINS.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d.id;
+    opt.textContent = d.name;
+    select.appendChild(opt);
+  });
+}
+
+// ===== EVENT HANDLERS =====
+// Role chips
+document.querySelectorAll('.role-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const role = chip.dataset.role;
+    activeRoles[role] = !activeRoles[role];
+    chip.classList.toggle('role-chip--active', activeRoles[role]);
+    chip.setAttribute('aria-pressed', activeRoles[role]);
+    refreshAll();
+  });
+});
+
+// Dimension toggle
+document.querySelectorAll('.dim-toggle__btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dim-toggle__btn').forEach(b => b.classList.remove('dim-toggle__btn--active'));
+    btn.classList.add('dim-toggle__btn--active');
+    activeDim = btn.dataset.dim;
+    refreshAll();
+  });
+});
+
+// Table toggle
+document.getElementById('table-toggle').addEventListener('click', () => {
+  tableOpen = !tableOpen;
+  const body = document.getElementById('table-body-container');
+  const arrow = document.getElementById('table-arrow');
+  body.className = 'data-table-body ' + (tableOpen ? 'data-table-body--expanded' : 'data-table-body--collapsed');
+  arrow.className = 'data-table-header__toggle' + (tableOpen ? ' data-table-header__toggle--open' : '');
+  document.getElementById('table-toggle').setAttribute('aria-expanded', tableOpen);
+});
+
+document.getElementById('table-toggle').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    document.getElementById('table-toggle').click();
+  }
+});
+
+// Table filters
+document.getElementById('table-domain-filter').addEventListener('change', e => {
+  tableFilter = e.target.value;
+  renderTable();
+});
+
+document.getElementById('table-sort-select').addEventListener('change', e => {
+  tableSort = e.target.value;
+  renderTable();
+});
+
+// Resize
+window.addEventListener('resize', () => {
+  if (radarChart) radarChart.resize();
+  if (compChart) compChart.resize();
+  if (panoramicChart) { panoramicChart.resize(); alignDomainLegend(); }
+});
+
+// ===== REFRESH ALL =====
+function refreshAll() {
+  updateSummaryCards();
+  updateRadarChart();
+  updateComparisonChart();
+  updateQuadrantChart();
+  updatePanoramicChart();
+  renderRegionComparison();
+  renderTable();
+}
+
+// ===== INIT =====
+function init() {
+  renderSampleBar();
+  initTableFilters();
+  renderDomainTabs();
+  updateSummaryCards();
+  initRadarChart();
+  initComparisonChart();
+  initQuadrantChart();
+  initPanoramicChart();
+  renderDomainLegend();
+  renderRegionComparison();
+  renderTable();
+
+  // Try loading real data from Supabase
+  loadSupabaseData();
+}
+
+// ===== SUPABASE INTEGRATION =====
+async function loadSupabaseData() {
+  var supaUrl = localStorage.getItem('supa_url');
+  var supaKey = localStorage.getItem('supa_key');
+  if (!supaUrl || !supaKey) return;
+
+  try {
+    var client = window.supabase.createClient(supaUrl, supaKey);
+
+    // Fetch aggregated scores by role
+    var scoresResult = await client.from('factor_scores_by_role').select('*');
+    if (scoresResult.error || !scoresResult.data || scoresResult.data.length === 0) return;
+
+    var scores = scoresResult.data;
+
+    // Fetch sample summary
+    var sampleResult = await client.from('sample_summary').select('*');
+
+    // Override DATA with real scores
+    scores.forEach(function(row) {
+      var factorItem = DATA.find(function(d) {
+        return d.domainId === row.domain_id && d.factor === row.factor;
+      });
+      if (!factorItem) return;
+
+      var role = row.role;
+      if (role === 'region') {
+        factorItem.importance.region = row.avg_importance;
+        factorItem.urgency.region = row.avg_urgency;
+      } else if (role === 'investor') {
+        factorItem.importance.investor = row.avg_importance;
+        factorItem.urgency.investor = row.avg_urgency;
+      } else if (role === 'hq') {
+        factorItem.importance.hq = row.avg_importance;
+        factorItem.urgency.hq = row.avg_urgency;
+      }
+    });
+
+    // Override sample data if available
+    if (sampleResult.data && sampleResult.data.length > 0) {
+      var regionMap = {};
+      var hqCount = 0;
+      sampleResult.data.forEach(function(s) {
+        if (s.role === 'hq') {
+          hqCount += s.respondent_count;
+        } else {
+          var rKey = s.region || '未知';
+          if (!regionMap[rKey]) regionMap[rKey] = { region: 0, investor: 0 };
+          if (s.role === 'region') regionMap[rKey].region = s.respondent_count;
+          if (s.role === 'investor') regionMap[rKey].investor = s.respondent_count;
+        }
+      });
+
+      SAMPLE_DATA.hq = hqCount || SAMPLE_DATA.hq;
+      var regionNames = Object.keys(regionMap);
+      if (regionNames.length > 0) {
+        SAMPLE_DATA.regions = regionNames.map(function(name) {
+          return { name: name, region: regionMap[name].region, investor: regionMap[name].investor };
+        });
+      }
+    }
+
+    // Refresh all modules with real data
+    refreshAll();
+
+    // Update badge
+    var badge = document.getElementById('data-source-badge');
+    if (badge) {
+      badge.textContent = '实时数据';
+      badge.style.background = '#DEFBE6';
+      badge.style.color = '#198038';
+    }
+
+    console.log('Supabase: loaded ' + scores.length + ' factor scores from ' + (sampleResult.data ? sampleResult.data.length : 0) + ' respondent groups');
+
+  } catch (err) {
+    console.warn('Supabase: failed to load data, using simulated data.', err.message);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
