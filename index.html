@@ -1454,7 +1454,7 @@
         <span class="role-chip__dot"></span>区域
       </button>
       <button class="role-chip role-chip--active" data-role="investor" aria-pressed="true">
-        <span class="role-chip__dot"></span>门店
+        <span class="role-chip__dot"></span>门店人员
       </button>
     </div>
     <div class="dim-toggle" data-component="Dimension Toggle" data-od-id="dim-toggle">
@@ -2079,7 +2079,7 @@ function updateComparisonChart() {
 
   const seriesData = [];
   const roleKeys = [];
-  const roleLabels = { region: '区域', investor: '门店', hq: '总部' };
+  const roleLabels = { region: '区域', investor: '门店人员', hq: '总部' };
   const roleColors = { region: CV.blue, investor: CV.green, hq: CV.orange };
 
   if (activeRoles.hq) roleKeys.push('hq');
