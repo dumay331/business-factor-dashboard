@@ -63,7 +63,6 @@
     --role-region: #0F62FE;
     --role-investor: #24A148;
     --role-hq: #EB6200;
-    --role-store_manager: #8A3FFC;
 
     /* Additional semantic tokens */
     --color-accent-purple: #8A3FFC;
@@ -193,7 +192,6 @@
   .role-chip[data-role="region"].role-chip--active { background: var(--role-region); }
   .role-chip[data-role="investor"].role-chip--active { background: var(--role-investor); }
   .role-chip[data-role="hq"].role-chip--active { background: var(--role-hq); }
-  .role-chip[data-role="store_manager"].role-chip--active { background: var(--role-store_manager); }
 
   .role-chip__dot {
     width: 8px;
@@ -205,7 +203,6 @@
   .role-chip[data-role="region"] .role-chip__dot { background: var(--role-region); }
   .role-chip[data-role="investor"] .role-chip__dot { background: var(--role-investor); }
   .role-chip[data-role="hq"] .role-chip__dot { background: var(--role-hq); }
-  .role-chip[data-role="store_manager"] .role-chip__dot { background: var(--role-store_manager); }
 
   .role-chip--active .role-chip__dot {
     background: rgba(255,255,255,0.7);
@@ -1457,10 +1454,7 @@
         <span class="role-chip__dot"></span>区域
       </button>
       <button class="role-chip role-chip--active" data-role="investor" aria-pressed="true">
-        <span class="role-chip__dot"></span>门店（投资人）
-      </button>
-      <button class="role-chip role-chip--active" data-role="store_manager" aria-pressed="true">
-        <span class="role-chip__dot"></span>门店（店总）
+        <span class="role-chip__dot"></span>门店
       </button>
     </div>
     <div class="dim-toggle" data-component="Dimension Toggle" data-od-id="dim-toggle">
@@ -1632,7 +1626,6 @@ const CV = {
   blue: _cs.getPropertyValue('--role-region').trim(),
   green: _cs.getPropertyValue('--role-investor').trim(),
   orange: _cs.getPropertyValue('--role-hq').trim(),
-  purple: _cs.getPropertyValue('--role-store_manager').trim(),
   text: _cs.getPropertyValue('--color-text-secondary').trim(),
   textMuted: _cs.getPropertyValue('--color-text-muted').trim(),
   border: _cs.getPropertyValue('--color-border').trim(),
@@ -1758,7 +1751,6 @@ function renderRegionComparison() {
   if (activeRoles.region) activeKeys.push('region');
   if (activeRoles.investor) activeKeys.push('investor');
   if (activeRoles.hq) activeKeys.push('hq');
-  if (activeRoles.store_manager) activeKeys.push('store_manager');
 
   // Compute each region's scored factors and top 10
   var regionTop10 = {};
@@ -1889,7 +1881,7 @@ function renderSampleBar() {
 }
 
 // ===== STATE =====
-let activeRoles = { region: true, investor: true, hq: true, store_manager: true };
+let activeRoles = { region: true, investor: true, hq: true };
 let activeDim = 'importance'; // 'importance' | 'urgency' | 'both'
 let activeDomain = 0; // index into DOMAINS
 let tableOpen = false;
@@ -2087,13 +2079,12 @@ function updateComparisonChart() {
 
   const seriesData = [];
   const roleKeys = [];
-  const roleLabels = { region: '区域', investor: '门店（投资人）', hq: '总部', store_manager: '门店（店总）' };
-  const roleColors = { region: CV.blue, investor: CV.green, hq: CV.orange, store_manager: CV.purple };
+  const roleLabels = { region: '区域', investor: '门店', hq: '总部' };
+  const roleColors = { region: CV.blue, investor: CV.green, hq: CV.orange };
 
   if (activeRoles.hq) roleKeys.push('hq');
   if (activeRoles.region) roleKeys.push('region');
   if (activeRoles.investor) roleKeys.push('investor');
-  if (activeRoles.store_manager) roleKeys.push('store_manager');
 
   dims.forEach(dim => {
     const isUrgLine = isDouble && dim === 'urgency';

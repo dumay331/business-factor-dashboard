@@ -839,8 +839,7 @@ body {
           <option value="">请选择角色</option>
           <option value="hq">总部人员</option>
           <option value="region">区域人员</option>
-          <option value="investor">门店（投资人）</option>
-          <option value="store_manager">门店（店总）</option>
+          <option value="investor">门店</option>
         </select>
       </div>
       <div class="form-group" id="region-group" style="display:none">
@@ -960,8 +959,8 @@ function toggleRegion() {
   var role = document.getElementById('resp-role').value;
   var regionGroup = document.getElementById('region-group');
   var regionSelect = document.getElementById('resp-region');
-  // 总部人员和门店（店总）不需要选择区域
-  if (role === 'hq' || role === 'store_manager') {
+  // 总部人员不需要选择区域
+  if (role === 'hq') {
     regionGroup.style.display = 'none';
     regionSelect.value = '';
   } else {
@@ -1179,7 +1178,7 @@ async function submitSurvey() {
   var region = document.getElementById('resp-region').value;
 
   if (!role) { alert('请选择角色'); return; }
-  if (!region && role !== 'hq' && role !== 'store_manager') { alert('请选择所属区域'); return; }
+  if (!region && role !== 'hq') { alert('请选择所属区域'); return; }
 
   if (!supabaseClient) {
     alert('请先配置 Supabase 连接信息');
@@ -1191,10 +1190,7 @@ async function submitSurvey() {
   btn.textContent = '提交中...';
 
   // 根据角色确定区域值
-  var regionValue = '';
-  if (role === 'hq') regionValue = '总部';
-  else if (role === 'store_manager') regionValue = region || '门店';
-  else regionValue = region;
+  var regionValue = role === 'hq' ? '总部' : region;
 
   try {
     var respResult = await supabaseClient.from('respondents').insert({
