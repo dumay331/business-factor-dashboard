@@ -258,7 +258,7 @@ body {
 
 .info-card__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-md);
 }
 
@@ -834,19 +834,16 @@ body {
     <div class="info-card__title">填写人信息</div>
     <div class="info-card__grid">
       <div class="form-group">
-        <label for="resp-name">姓名</label>
-        <input type="text" id="resp-name" placeholder="请输入姓名" />
-      </div>
-      <div class="form-group">
         <label for="resp-role">角色</label>
-        <select id="resp-role">
+        <select id="resp-role" onchange="toggleRegion()">
           <option value="">请选择角色</option>
+          <option value="hq">总部人员</option>
           <option value="region">区域人员</option>
           <option value="investor">门店（投资人）</option>
-          <option value="hq">总部人员</option>
+          <option value="store_manager">门店（店总）</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="region-group" style="display:none">
         <label for="resp-region">所属区域</label>
         <select id="resp-region">
           <option value="">请选择区域</option>
@@ -956,6 +953,20 @@ function init() {
   }
   renderSurvey();
   setDefaultRatings();
+}
+
+// ===== TOGGLE REGION =====
+function toggleRegion() {
+  var role = document.getElementById('resp-role').value;
+  var regionGroup = document.getElementById('region-group');
+  var regionSelect = document.getElementById('resp-region');
+  // 总部人员和门店（店总）不需要选择区域
+  if (role === 'hq' || role === 'store_manager') {
+    regionGroup.style.display = 'none';
+    regionSelect.value = '';
+  } else {
+    regionGroup.style.display = '';
+  }
 }
 
 function saveSupabaseConfig() {
@@ -1164,13 +1175,11 @@ function updateProgress() {
 
 // ===== SUBMIT =====
 async function submitSurvey() {
-  var name = document.getElementById('resp-name').value.trim();
   var role = document.getElementById('resp-role').value;
   var region = document.getElementById('resp-region').value;
 
-  if (!name) { alert('请填写姓名'); return; }
   if (!role) { alert('请选择角色'); return; }
-  if (!region && role !== 'hq') { alert('请选择所属区域'); return; }
+  if (!region && role !== 'hq' && role !== 'store_manager') { alert('请选择所属区域'); return; }
 
   if (!supabaseClient) {
     alert('请先配置 Supabase 连接信息');
@@ -1181,11 +1190,16 @@ async function submitSurvey() {
   btn.disabled = true;
   btn.textContent = '提交中...';
 
+  // 根据角色确定区域值
+  var regionValue = '';
+  if (role === 'hq') regionValue = '总部';
+  else if (role === 'store_manager') regionValue = region || '门店';
+  else regionValue = region;
+
   try {
     var respResult = await supabaseClient.from('respondents').insert({
-      name: name,
       role: role,
-      region: region || '总部'
+      region: regionValue
     }).select().single();
 
     if (respResult.error) throw new Error(respResult.error.message);
