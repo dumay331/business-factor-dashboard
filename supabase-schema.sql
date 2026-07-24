@@ -7,7 +7,7 @@
 CREATE TABLE respondents (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT DEFAULT '匿名',
-  role TEXT NOT NULL CHECK (role IN ('region', 'investor', 'hq')),
+  role TEXT NOT NULL CHECK (role IN ('region', 'investor', 'hq', 'store_manager')),
   region TEXT,
   created_at TIMESTAMPTZ DEFAULT now()
 );
