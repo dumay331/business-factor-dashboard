@@ -1459,8 +1459,8 @@
       </button>
     </div>
     <div class="dim-toggle" data-component="Dimension Toggle" data-od-id="dim-toggle">
-      <button class="dim-toggle__btn dim-toggle__btn--active" data-dim="importance">重要度</button>
-      <button class="dim-toggle__btn" data-dim="urgency">紧迫度</button>
+      <button class="dim-toggle__btn dim-toggle__btn--active" data-dim="importance">重要性</button>
+      <button class="dim-toggle__btn" data-dim="urgency">紧迫性</button>
       <button class="dim-toggle__btn" data-dim="both">双维度</button>
     </div>
     <a href="survey.html" style="margin-left:12px;padding:6px 14px;background:var(--color-green-60);color:white;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;text-decoration:none;white-space:nowrap;">填写问卷</a>
@@ -1477,11 +1477,11 @@
   <!-- Summary Cards -->
   <section class="summary-cards" data-component="Summary Cards" data-od-id="summary-cards">
     <div class="summary-card summary-card--accent">
-      <div class="summary-card__label">最高重要度因素</div>
+      <div class="summary-card__label">最高重要性因素</div>
       <div class="summary-card__list" id="top-importance-list"></div>
     </div>
     <div class="summary-card summary-card--warning">
-      <div class="summary-card__label">最高紧迫度因素</div>
+      <div class="summary-card__label">最高紧迫性因素</div>
       <div class="summary-card__list" id="top-urgency-list"></div>
     </div>
     <div class="summary-card summary-card--danger">
@@ -1509,7 +1509,7 @@
         </div>
       </div>
       <div class="chart-panel__body">
-        <div id="radar-chart" role="img" aria-label="九大领域平均重要度和紧迫度雷达对比图"></div>
+        <div id="radar-chart" role="img" aria-label="九大领域平均重要性和紧迫性雷达对比图"></div>
       </div>
     </div>
 
@@ -1534,8 +1534,8 @@
   <section class="quadrant-section" data-component="Priority Matrix" data-od-id="quadrant-view">
     <div class="quadrant-header">
       <div class="panoramic-header__left">
-        <div class="chart-panel__title">重要度-紧迫度优先级矩阵</div>
-        <div class="chart-panel__subtitle">按50%权重加权总分排序（满分5分）</div>
+        <div class="chart-panel__title">优先级矩阵（重要性 x 紧迫性）</div>
+        <div class="chart-panel__subtitle">按优先级排序（满分5分）</div>
       </div>
     </div>
     <div class="quadrant-overview" id="quadrant-overview"></div>
@@ -1550,13 +1550,13 @@
         <div class="chart-panel__subtitle">45项关键因素全景视图（关键因素分数 &gt; 3.5分显示因素名称）</div>
       </div>
       <div class="panoramic-dim-toggle" data-component="Panoramic Dim Toggle" data-od-id="panoramic-dim-toggle">
-        <button class="panoramic-dim-toggle__btn panoramic-dim-toggle__btn--active" data-panoramic-dim="importance">重要度</button>
-        <button class="panoramic-dim-toggle__btn" data-panoramic-dim="urgency">紧迫度</button>
+        <button class="panoramic-dim-toggle__btn panoramic-dim-toggle__btn--active" data-panoramic-dim="importance">重要性</button>
+        <button class="panoramic-dim-toggle__btn" data-panoramic-dim="urgency">紧迫性</button>
         <button class="panoramic-dim-toggle__btn" data-panoramic-dim="both">双维度</button>
       </div>
     </div>
     <div style="padding: 0 var(--space-md);">
-      <div id="panoramic-chart" role="img" aria-label="全部45项因素重要度/紧迫度全景折线图"></div>
+      <div id="panoramic-chart" role="img" aria-label="全部45项因素重要性/紧迫性全景折线图"></div>
     </div>
     <div class="domain-legend" id="domain-legend" data-component="Domain Legend" data-od-id="domain-legend"></div>
   </section>
@@ -1589,8 +1589,8 @@
         </select>
         <select class="table-filter-select" id="table-sort-select" aria-label="排序方式">
           <option value="domain">按领域</option>
-          <option value="importance-desc">重要度 高→低</option>
-          <option value="urgency-desc">紧迫度 高→低</option>
+          <option value="importance-desc">重要性 高→低</option>
+          <option value="urgency-desc">紧迫性 高→低</option>
           <option value="gap-desc">差距 大→小</option>
           <option value="diverge-desc">分歧度 大→小</option>
         </select>
@@ -1606,8 +1606,8 @@
               <th style="text-align:center">总部</th>
               <th style="text-align:center">区域</th>
               <th style="text-align:center">门店</th>
-              <th style="text-align:center">平均重要度</th>
-              <th style="text-align:center">平均紧迫度</th>
+              <th style="text-align:center">平均重要性</th>
+              <th style="text-align:center">平均紧迫性</th>
               <th style="text-align:center">重要-紧迫差距</th>
               <th style="text-align:center">分歧度</th>
             </tr>
@@ -1994,7 +1994,7 @@ function updateRadarChart() {
   if (activeDim === 'importance' || activeDim === 'both') {
     series.push({
       value: impByDomain.map(v => Math.round(v * 10) / 10),
-      name: '重要度',
+      name: '重要性',
       areaStyle: { opacity: 0.12 },
       lineStyle: { width: 2 },
       itemStyle: { color: CV.blue }
@@ -2003,7 +2003,7 @@ function updateRadarChart() {
   if (activeDim === 'urgency' || activeDim === 'both') {
     series.push({
       value: urgByDomain.map(v => Math.round(v * 10) / 10),
-      name: '紧迫度',
+      name: '紧迫性',
       areaStyle: { opacity: 0.1 },
       lineStyle: { width: 2, type: 'dashed' },
       itemStyle: { color: CV.orange }
@@ -2077,7 +2077,7 @@ function updateComparisonChart() {
 
   const isDouble = activeDim === 'both';
   const dims = isDouble ? ['importance', 'urgency'] : [activeDim];
-  const dimLabels = { importance: '重要度', urgency: '紧迫度' };
+  const dimLabels = { importance: '重要性', urgency: '紧迫性' };
 
   const seriesData = [];
   const roleKeys = [];
@@ -2300,7 +2300,7 @@ function updatePanoramicChart() {
   if (isDouble) {
     series = [
       {
-        name: '重要度',
+        name: '重要性',
         type: 'line',
         data: scores,
         smooth: 0.3,
@@ -2326,7 +2326,7 @@ function updatePanoramicChart() {
         markPoint: { data: markPointData, animation: false }
       },
       {
-        name: '紧迫度',
+        name: '紧迫性',
         type: 'line',
         data: urgScores,
         smooth: 0.3,
@@ -2379,12 +2379,12 @@ function updatePanoramicChart() {
         if (!f) return '';
         if (isDouble) {
           const seriesName = params.seriesName;
-          const val = seriesName === '重要度' ? f.importanceScore : f.urgencyScore;
+          const val = seriesName === '重要性' ? f.importanceScore : f.urgencyScore;
           return '<div style="font-weight:600;margin-bottom:4px;">' + f.name + '</div>' +
             '<div style="color:' + CV.textMuted + ';font-size:12px;margin-bottom:4px;">' + f.domainName + '</div>' +
             '<div>' + seriesName + '：<span style="font-weight:600;">' + val.toFixed(1) + '</span></div>';
         }
-        const dimLabel = panoramicDim === 'importance' ? '重要度' : '紧迫度';
+        const dimLabel = panoramicDim === 'importance' ? '重要性' : '紧迫性';
         return '<div style="font-weight:600;margin-bottom:4px;">' + f.name + '</div>' +
           '<div style="color:' + CV.textMuted + ';font-size:12px;margin-bottom:4px;">' + f.domainName + '</div>' +
           '<div>' + dimLabel + '：<span style="font-weight:600;">' + f.score.toFixed(1) + '</span></div>';
