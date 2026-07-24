@@ -438,6 +438,13 @@
     flex-shrink: 0;
   }
 
+  .summary-card__sublabel {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+    flex-shrink: 0;
+  }
+
   .summary-card__list {
     display: flex;
     flex-direction: column;
@@ -1444,7 +1451,7 @@
 
 <!-- ===== HEADER ===== -->
 <header class="site-header" data-component="Header Navigation" data-od-id="header">
-  <h1 class="site-header__title">昊铂埃安营销体系关键影响因素调研全景分析</h1>
+  <h1 class="site-header__title">广汽昊铂埃安营销体系变革关键影响因素调研全景分析</h1>
   <div class="site-header__controls">
     <div class="role-filter" data-component="Role Filter" data-od-id="role-filter">
       <span class="role-filter__label">角色筛选</span>
@@ -1459,8 +1466,8 @@
       </button>
     </div>
     <div class="dim-toggle" data-component="Dimension Toggle" data-od-id="dim-toggle">
-      <button class="dim-toggle__btn dim-toggle__btn--active" data-dim="importance">重要性</button>
-      <button class="dim-toggle__btn" data-dim="urgency">紧迫性</button>
+      <button class="dim-toggle__btn dim-toggle__btn--active" data-dim="importance">重要度</button>
+      <button class="dim-toggle__btn" data-dim="urgency">紧迫度</button>
       <button class="dim-toggle__btn" data-dim="both">双维度</button>
     </div>
     <a href="survey.html" style="margin-left:12px;padding:6px 14px;background:var(--color-green-60);color:white;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;text-decoration:none;white-space:nowrap;">填写问卷</a>
@@ -1477,23 +1484,28 @@
   <!-- Summary Cards -->
   <section class="summary-cards" data-component="Summary Cards" data-od-id="summary-cards">
     <div class="summary-card summary-card--accent">
-      <div class="summary-card__label">最高重要性因素</div>
+      <div class="summary-card__label">经营影响最重要因素</div>
+      <div class="summary-card__sublabel">重要度平均分数Top3</div>
       <div class="summary-card__list" id="top-importance-list"></div>
     </div>
     <div class="summary-card summary-card--warning">
-      <div class="summary-card__label">最高紧迫性因素</div>
+      <div class="summary-card__label">改善行动最紧迫因素</div>
+      <div class="summary-card__sublabel">紧迫性平均分数Top3</div>
       <div class="summary-card__list" id="top-urgency-list"></div>
     </div>
     <div class="summary-card summary-card--danger">
-      <div class="summary-card__label">重要-紧迫差距最大</div>
+      <div class="summary-card__label">最重要且最紧迫改善因素</div>
+      <div class="summary-card__sublabel">优先级（重要度X紧迫度）平均分数Top3</div>
       <div class="summary-card__list" id="top-gap-list"></div>
     </div>
     <div class="summary-card summary-card--diverge">
-      <div class="summary-card__label">角色分歧最大</div>
+      <div class="summary-card__label">角色分歧最大因素</div>
+      <div class="summary-card__sublabel">（重要度X紧迫度）角色标准差最大Top3</div>
       <div class="summary-card__list" id="top-diverge-list"></div>
     </div>
     <div class="summary-card summary-card--consensus">
-      <div class="summary-card__label">三方共识焦点</div>
+      <div class="summary-card__label">总部、区域、门店共识焦点</div>
+      <div class="summary-card__sublabel">（重要度X紧迫度）角色标准差最小Top3</div>
       <div class="summary-card__list" id="consensus-list"></div>
     </div>
   </section>
@@ -1534,8 +1546,8 @@
   <section class="quadrant-section" data-component="Priority Matrix" data-od-id="quadrant-view">
     <div class="quadrant-header">
       <div class="panoramic-header__left">
-        <div class="chart-panel__title">优先级矩阵（重要性 x 紧迫性）</div>
-        <div class="chart-panel__subtitle">按优先级排序（满分5分）</div>
+        <div class="chart-panel__title">影响因素优先级矩阵（优先级分数=重要度 x 紧迫度）</div>
+        <div class="chart-panel__subtitle">按优先级分数排序（满分25分）；角色分歧为总部、区域、门店优先级分数的标准差，标准差越大，角色分歧越大</div>
       </div>
     </div>
     <div class="quadrant-overview" id="quadrant-overview"></div>
@@ -1547,11 +1559,11 @@
     <div class="panoramic-header">
       <div class="panoramic-header__left">
         <div class="chart-panel__title">全景视图</div>
-        <div class="chart-panel__subtitle">45项关键因素全景视图（关键因素分数 &gt; 3.5分显示因素名称）</div>
+        <div class="chart-panel__subtitle">45项关键因素全景视图（重要度分数 &gt; 3.5分、紧迫度分数 &gt; 3.5分时显示影响因素名称）</div>
       </div>
       <div class="panoramic-dim-toggle" data-component="Panoramic Dim Toggle" data-od-id="panoramic-dim-toggle">
-        <button class="panoramic-dim-toggle__btn panoramic-dim-toggle__btn--active" data-panoramic-dim="importance">重要性</button>
-        <button class="panoramic-dim-toggle__btn" data-panoramic-dim="urgency">紧迫性</button>
+        <button class="panoramic-dim-toggle__btn panoramic-dim-toggle__btn--active" data-panoramic-dim="importance">重要度</button>
+        <button class="panoramic-dim-toggle__btn" data-panoramic-dim="urgency">紧迫度</button>
         <button class="panoramic-dim-toggle__btn" data-panoramic-dim="both">双维度</button>
       </div>
     </div>
@@ -1565,8 +1577,8 @@
   <section class="region-section" data-component="Region Comparison" data-od-id="region-view">
     <div class="region-header">
       <div class="panoramic-header__left">
-        <div class="chart-panel__title">区域视图分析</div>
-        <div class="chart-panel__subtitle">各区域最重要且紧迫的 Top 10 因素（加权总分排序）</div>
+        <div class="chart-panel__title">分区域优先改善因素分析（优先级分数=重要度x紧迫度）</div>
+        <div class="chart-panel__subtitle">各区域优先改善因素（最重要且紧急） Top 10 因素（按优先级得分排序）</div>
       </div>
     </div>
     <div class="region-common" id="region-common"></div>
@@ -1589,10 +1601,10 @@
         </select>
         <select class="table-filter-select" id="table-sort-select" aria-label="排序方式">
           <option value="domain">按领域</option>
-          <option value="importance-desc">重要性 高→低</option>
-          <option value="urgency-desc">紧迫性 高→低</option>
-          <option value="gap-desc">差距 大→小</option>
-          <option value="diverge-desc">分歧度 大→小</option>
+          <option value="importance-desc">重要度 高→低</option>
+          <option value="urgency-desc">紧迫度 高→低</option>
+          <option value="priority-desc">优先级 高→低</option>
+          <option value="diverge-desc">优先级分歧度 大→小</option>
         </select>
       </div>
     </div>
@@ -1603,13 +1615,13 @@
             <tr>
               <th>领域</th>
               <th>因素名称</th>
-              <th style="text-align:center">总部</th>
-              <th style="text-align:center">区域</th>
-              <th style="text-align:center">门店</th>
-              <th style="text-align:center">平均重要性</th>
-              <th style="text-align:center">平均紧迫性</th>
-              <th style="text-align:center">重要-紧迫差距</th>
-              <th style="text-align:center">分歧度</th>
+              <th style="text-align:center">优先级分数-总部</th>
+              <th style="text-align:center">优先级分数-区域</th>
+              <th style="text-align:center">优先级分数-门店</th>
+              <th style="text-align:center">平均重要度</th>
+              <th style="text-align:center">平均紧迫度</th>
+              <th style="text-align:center">平均优先级</th>
+              <th style="text-align:center">优先级分歧度</th>
             </tr>
           </thead>
           <tbody id="detail-tbody"></tbody>
@@ -1752,7 +1764,7 @@ function renderRegionComparison() {
   var activeKeys = [];
   if (activeRoles.region) activeKeys.push('region');
   if (activeRoles.hq) activeKeys.push('hq');
-  if (activeRoles.store) { activeKeys.push('investor'); activeKeys.push('store_manager'); }
+  if (activeRoles.store) activeKeys.push('investor');
 
   // Compute each region's scored factors and top 10
   var regionTop10 = {};
@@ -1762,8 +1774,8 @@ function renderRegionComparison() {
 
   REGIONS.forEach(function(name) {
     var factors = REGION_DATA[name].map(function(f) {
-      var impVals = activeKeys.map(function(k) { return f.imp[k]; });
-      var urgVals = activeKeys.map(function(k) { return f.urg[k]; });
+      var impVals = activeKeys.map(function(k) { return f.imp[k]; }).filter(function(v) { return v != null && !isNaN(v); });
+      var urgVals = activeKeys.map(function(k) { return f.urg[k]; }).filter(function(v) { return v != null && !isNaN(v); });
       var importance = impVals.length ? avg(impVals) : 0;
       var urgency = urgVals.length ? avg(urgVals) : 0;
       return {
@@ -1771,7 +1783,7 @@ function renderRegionComparison() {
         domainName: f.domainName,
         importance: importance,
         urgency: urgency,
-        total: Math.round((importance * 0.5 + urgency * 0.5) * 100) / 100
+        total: Math.round(importance * urgency * 100) / 100
       };
     });
     factors.sort(function(a, b) { return b.total - a.total; });
@@ -1807,7 +1819,7 @@ function renderRegionComparison() {
         '<span class="region-common__item-rank">' + (i + 1) + '</span>' +
         '<span class="region-common__item-name" title="' + f.factor + '">' + f.factor + '</span>' +
         '<span class="region-common__item-score">' + f.avgTotal.toFixed(1) + '</span>' +
-        '<span class="region-common__item-count">' + f.freq + '/10 区域</span>' +
+        '<span class="region-common__item-count">' + f.freq + ' 区域</span>' +
         '</div>';
     }).join('') +
     '</div>';
@@ -1900,22 +1912,23 @@ function stdDev(arr) {
 function getAvgImportance(f) {
   const vals = [];
   if (activeRoles.region) vals.push(f.importance.region);
-  if (activeRoles.investor) vals.push(f.importance.investor);
+  if (activeRoles.store) vals.push(f.importance.investor);
   if (activeRoles.hq) vals.push(f.importance.hq);
   return vals.length ? avg(vals) : 0;
 }
 function getAvgUrgency(f) {
   const vals = [];
   if (activeRoles.region) vals.push(f.urgency.region);
-  if (activeRoles.investor) vals.push(f.urgency.investor);
+  if (activeRoles.store) vals.push(f.urgency.investor);
   if (activeRoles.hq) vals.push(f.urgency.hq);
   return vals.length ? avg(vals) : 0;
 }
 function getGap(f) { return Math.abs(getAvgImportance(f) - getAvgUrgency(f)); }
+function getAvgPriority(f) { return getAvgImportance(f) * getAvgUrgency(f); }
 function getDiverge(f, dim) {
   const vals = [];
   if (activeRoles.region) vals.push(f[dim].region);
-  if (activeRoles.investor) vals.push(f[dim].investor);
+  if (activeRoles.store) vals.push(f[dim].investor);
   if (activeRoles.hq) vals.push(f[dim].hq);
   return vals.length > 1 ? stdDev(vals) : 0;
 }
@@ -1936,31 +1949,35 @@ function updateSummaryCards() {
     }).join('');
   }
 
-  // Top 3 importance
+  // Top 3 importance (sorted by importance, show importance score)
   var sortedImp = DATA.slice().sort(function(a, b) { return getAvgImportance(b) - getAvgImportance(a); });
   renderList('top-importance-list', sortedImp.slice(0, 3).map(function(f) {
     return { name: f.factor, score: getAvgImportance(f).toFixed(1) };
   }));
 
-  // Top 3 urgency
+  // Top 3 urgency (sorted by urgency, show urgency score)
   var sortedUrg = DATA.slice().sort(function(a, b) { return getAvgUrgency(b) - getAvgUrgency(a); });
   renderList('top-urgency-list', sortedUrg.slice(0, 3).map(function(f) {
     return { name: f.factor, score: getAvgUrgency(f).toFixed(1) };
   }));
 
-  // Top 3 gap
-  var sortedGap = DATA.slice().sort(function(a, b) { return getGap(b) - getGap(a); });
+  // Top 3 gap (sorted by priority score, show priority score)
+  var sortedGap = DATA.slice().sort(function(a, b) {
+    var pa = Math.round(getAvgImportance(a) * 10) / 10 * Math.round(getAvgUrgency(a) * 10) / 10;
+    var pb = Math.round(getAvgImportance(b) * 10) / 10 * Math.round(getAvgUrgency(b) * 10) / 10;
+    return pb - pa;
+  });
   renderList('top-gap-list', sortedGap.slice(0, 3).map(function(f) {
-    return { name: f.factor, score: getGap(f).toFixed(1) };
+    return { name: f.factor, score: (Math.round(getAvgImportance(f) * 10) / 10 * Math.round(getAvgUrgency(f) * 10) / 10).toFixed(1) };
   }));
 
-  // Top 3 divergence
+  // Top 3 divergence (sorted by divergence, show divergence score)
   var sortedDiv = DATA.slice().sort(function(a, b) { return getOverallDiverge(b) - getOverallDiverge(a); });
   renderList('top-diverge-list', sortedDiv.slice(0, 3).map(function(f) {
     return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
   }));
 
-  // Top 3 consensus (lowest divergence)
+  // Top 3 consensus (lowest divergence first, show divergence score)
   var sortedCon = DATA.slice().sort(function(a, b) { return getOverallDiverge(a) - getOverallDiverge(b); });
   renderList('consensus-list', sortedCon.slice(0, 3).map(function(f) {
     return { name: f.factor, score: getOverallDiverge(f).toFixed(2) };
@@ -2204,7 +2221,7 @@ const DOMAIN_COLORS = [
 function getPanoramicScore(f, dim) {
   const vals = [];
   if (activeRoles.region) vals.push(f[dim].region);
-  if (activeRoles.investor) vals.push(f[dim].investor);
+  if (activeRoles.store) vals.push(f[dim].investor);
   if (activeRoles.hq) vals.push(f[dim].hq);
   return vals.length ? avg(vals) : 0;
 }
@@ -2479,27 +2496,30 @@ function updateQuadrantChart() {
 }
 
 function renderQuadrantMatrix() {
-  const midpoint = 2.5;
   const grid = document.getElementById('quadrant-grid');
 
   // Classify factors into 4 categories
   const categories = {
-    q1: { label: '重要且紧迫', cssClass: 'q1', items: [] },
-    q2: { label: '重要不紧迫', cssClass: 'q2', items: [] },
-    q3: { label: '不重要但紧迫', cssClass: 'q3', items: [] },
-    q4: { label: '不重要也不紧迫', cssClass: 'q4', items: [] }
+    q1: { label: '重要且紧急（重要性>3，紧迫度>3）', cssClass: 'q1', items: [] },
+    q2: { label: '重要不紧急（重要度>3，紧迫度≤3）', cssClass: 'q2', items: [] },
+    q3: { label: '紧急不重要（重要度≤3，紧迫度>3）', cssClass: 'q3', items: [] },
+    q4: { label: '不重要不紧急（重要度≤3，紧迫度≤3）', cssClass: 'q4', items: [] }
   };
 
   DATA.forEach(f => {
-    const imp = getAvgImportance(f);
-    const urg = getAvgUrgency(f);
-    const total = Math.round((imp * 0.5 + urg * 0.5) * 100) / 100;
+    const imp = Math.round(getAvgImportance(f) * 10) / 10;
+    const urg = Math.round(getAvgUrgency(f) * 10) / 10;
+    const total = Math.round(imp * urg * 100) / 100;
     const item = { ...f, imp, urg, total };
 
-    if (imp >= midpoint && urg >= midpoint) categories.q1.items.push(item);
-    else if (imp >= midpoint && urg < midpoint) categories.q2.items.push(item);
-    else if (imp < midpoint && urg >= midpoint) categories.q3.items.push(item);
-    else categories.q4.items.push(item);
+    if (imp > 3) {
+      if (urg > 3) categories.q1.items.push(item);
+      else categories.q2.items.push(item);
+    } else if (urg > 3) {
+      categories.q3.items.push(item);
+    } else {
+      categories.q4.items.push(item);
+    }
   });
 
   // Sort each category by total descending
@@ -2509,12 +2529,12 @@ function renderQuadrantMatrix() {
 
   // Divergence overview: top 5 most disputed factors from "重要且紧迫" (Q1)
   function roleWeightedTotal(f) {
-    var region = f.importance.region * 0.5 + f.urgency.region * 0.5;
-    var investor = f.importance.investor * 0.5 + f.urgency.investor * 0.5;
-    var hq = f.importance.hq * 0.5 + f.urgency.hq * 0.5;
+    var region = f.importance.region * f.urgency.region;
+    var investor = f.importance.investor * f.urgency.investor;
+    var hq = f.importance.hq * f.urgency.hq;
     var vals = [];
     if (activeRoles.region) vals.push(region);
-    if (activeRoles.investor) vals.push(investor);
+    if (activeRoles.store) vals.push(investor);
     if (activeRoles.hq) vals.push(hq);
     return { region: region, investor: investor, hq: hq, div: vals.length > 1 ? stdDev(vals) : 0 };
   }
@@ -2527,7 +2547,7 @@ function renderQuadrantMatrix() {
   var roleColors = { region: '#0F62FE', investor: '#24A148', hq: '#EB6200' };
   var roleNames = { region: '区域', investor: '门店', hq: '总部' };
   var overviewEl = document.getElementById('quadrant-overview');
-  overviewEl.innerHTML = '<span class="quadrant-overview__label">重要且紧迫 · 角色分歧 Top 5</span>' +
+  overviewEl.innerHTML = '<span class="quadrant-overview__label">角色分歧 Top 5</span>' +
     '<div class="quadrant-overview__items">' +
     top5Div.map(function(f) {
       return '<div class="quadrant-overview__item" data-region="' + f.rwRegion.toFixed(2) + '" data-investor="' + f.rwInvestor.toFixed(2) + '" data-hq="' + f.rwHq.toFixed(2) + '">' +
@@ -2621,8 +2641,8 @@ function renderTable() {
     case 'urgency-desc':
       filtered.sort((a, b) => getAvgUrgency(b) - getAvgUrgency(a));
       break;
-    case 'gap-desc':
-      filtered.sort((a, b) => getGap(b) - getGap(a));
+    case 'priority-desc':
+      filtered.sort((a, b) => getAvgPriority(b) - getAvgPriority(a));
       break;
     case 'diverge-desc':
       filtered.sort((a, b) => getOverallDiverge(b) - getOverallDiverge(a));
@@ -2635,30 +2655,34 @@ function renderTable() {
   tbody.innerHTML = filtered.map(f => {
     const avgImp = getAvgImportance(f);
     const avgUrg = getAvgUrgency(f);
-    const gap = getGap(f);
+    const avgPri = getAvgPriority(f);
     const diverge = getOverallDiverge(f);
 
     let divergeClass = 'low';
     if (diverge > 0.75) divergeClass = 'high';
     else if (diverge > 0.4) divergeClass = 'medium';
 
-    const barWidth = v => Math.round(v / 5 * 60);
+    const hqPriority = f.importance.hq * f.urgency.hq;
+    const regionPriority = f.importance.region * f.urgency.region;
+    const investorPriority = f.importance.investor * f.urgency.investor;
+
+    const barWidth = v => Math.round(v / 25 * 60);
 
     return `<tr>
       <td><span class="domain-badge">${f.domainName}</span></td>
       <td style="font-weight:500;">${f.factor}</td>
       <td class="score-cell">
-        ${activeRoles.hq ? f.importance.hq.toFixed(1) + '<span class="score-bar score-bar--hq" style="width:' + barWidth(f.importance.hq) + 'px"></span>' : '—'}
+        ${activeRoles.hq ? hqPriority.toFixed(1) + '<span class="score-bar score-bar--hq" style="width:' + barWidth(hqPriority) + 'px"></span>' : '—'}
       </td>
       <td class="score-cell">
-        ${activeRoles.region ? f.importance.region.toFixed(1) + '<span class="score-bar score-bar--region" style="width:' + barWidth(f.importance.region) + 'px"></span>' : '—'}
+        ${activeRoles.region ? regionPriority.toFixed(1) + '<span class="score-bar score-bar--region" style="width:' + barWidth(regionPriority) + 'px"></span>' : '—'}
       </td>
       <td class="score-cell">
-        ${activeRoles.investor ? f.importance.investor.toFixed(1) + '<span class="score-bar score-bar--investor" style="width:' + barWidth(f.importance.investor) + 'px"></span>' : '—'}
+        ${activeRoles.store ? investorPriority.toFixed(1) + '<span class="score-bar score-bar--investor" style="width:' + barWidth(investorPriority) + 'px"></span>' : '—'}
       </td>
       <td class="score-cell" style="font-weight:600;">${avgImp.toFixed(1)}</td>
       <td class="score-cell" style="font-weight:600;">${avgUrg.toFixed(1)}</td>
-      <td class="score-cell">${gap.toFixed(1)}</td>
+      <td class="score-cell" style="font-weight:600;">${avgPri.toFixed(1)}</td>
       <td class="score-cell"><span class="divergence-badge divergence-badge--${divergeClass}">${diverge.toFixed(2)}</span></td>
     </tr>`;
   }).join('');
@@ -2790,8 +2814,19 @@ async function loadSupabaseData() {
         factorItem.importance.region = row.avg_importance;
         factorItem.urgency.region = row.avg_urgency;
       } else if (role === 'investor') {
-        factorItem.importance.investor = row.avg_importance;
-        factorItem.urgency.investor = row.avg_urgency;
+        if (!factorItem._storeImpSum) { factorItem._storeImpSum = 0; factorItem._storeUrgSum = 0; factorItem._storeCount = 0; }
+        factorItem._storeImpSum += row.avg_importance;
+        factorItem._storeUrgSum += row.avg_urgency;
+        factorItem._storeCount += 1;
+        factorItem.importance.investor = factorItem._storeImpSum / factorItem._storeCount;
+        factorItem.urgency.investor = factorItem._storeUrgSum / factorItem._storeCount;
+      } else if (role === 'store_manager') {
+        if (!factorItem._storeImpSum) { factorItem._storeImpSum = 0; factorItem._storeUrgSum = 0; factorItem._storeCount = 0; }
+        factorItem._storeImpSum += row.avg_importance;
+        factorItem._storeUrgSum += row.avg_urgency;
+        factorItem._storeCount += 1;
+        factorItem.importance.investor = factorItem._storeImpSum / factorItem._storeCount;
+        factorItem.urgency.investor = factorItem._storeUrgSum / factorItem._storeCount;
       } else if (role === 'hq') {
         factorItem.importance.hq = row.avg_importance;
         factorItem.urgency.hq = row.avg_urgency;
