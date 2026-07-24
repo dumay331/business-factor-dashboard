@@ -809,7 +809,7 @@ body {
   <div class="site-header__inner">
     <div class="site-header__brand">
       <div class="site-header__title">昊铂埃安营销体系关键影响因素调研</div>
-      <div class="site-header__meta">9大维度 · 45项因素 · 重要度与紧迫度</div>
+      <div class="site-header__meta">9大维度 · 45项因素 · 重要性与紧迫性</div>
     </div>
     <div class="site-header__progress">
       <div class="progress-ring">
@@ -878,18 +878,18 @@ body {
     <div class="rating-guide__title">评分说明</div>
     <div class="rating-guide__grid">
       <div class="rating-guide__item">
-        <div class="rating-guide__dim">重要度</div>
+        <div class="rating-guide__dim">变革支撑重要性</div>
         <div class="rating-guide__desc">该因素对门店整体经营业绩和客户满意度的影响程度。影响越大，重要度越高。</div>
         <div class="rating-guide__scale">
-          <span>0.5 = 几乎无影响</span>
+          <span>1= 几乎无影响</span>
           <span>5.0 = 决定性影响</span>
         </div>
       </div>
       <div class="rating-guide__item">
-        <div class="rating-guide__dim">紧迫度</div>
+        <div class="rating-guide__dim">变革落地紧迫性</div>
         <div class="rating-guide__desc">该因素当前需要被关注和改善的时间紧迫程度。越晚处理损失越大，紧迫度越高。</div>
         <div class="rating-guide__scale">
-          <span>0.5 = 可以缓一缓</span>
+          <span>1= 可以缓一缓</span>
           <span>5.0 = 必须立即行动</span>
         </div>
       </div>
@@ -1029,8 +1029,8 @@ function renderSurvey() {
     html += '</div>';
     html += '<div class="factor-section__right">';
     html += '<div class="domain-avg" id="domain-avg-' + di + '">';
-    html += '<div class="domain-avg__item"><span class="domain-avg__label">重要度</span><span class="domain-avg__value" id="domain-avg-imp-' + di + '">3.0</span></div>';
-    html += '<div class="domain-avg__item"><span class="domain-avg__label">紧迫度</span><span class="domain-avg__value" id="domain-avg-urg-' + di + '">3.0</span></div>';
+    html += '<div class="domain-avg__item"><span class="domain-avg__label">重要性</span><span class="domain-avg__value" id="domain-avg-imp-' + di + '">3.0</span></div>';
+    html += '<div class="domain-avg__item"><span class="domain-avg__label">紧迫性</span><span class="domain-avg__value" id="domain-avg-urg-' + di + '">3.0</span></div>';
     html += '</div>';
     html += '<span id="domain-status-' + di + '">0/5</span>';
     html += '<span class="status-check" id="domain-check-' + di + '">&#8250;</span>';
@@ -1041,8 +1041,8 @@ function renderSurvey() {
     // Table column headers
     html += '<div class="factor-table-head">';
     html += '<span>因素名称</span>';
-    html += '<span>重要度</span>';
-    html += '<span>紧迫度</span>';
+    html += '<span>重要性</span>';
+    html += '<span>紧迫性</span>';
     html += '</div>';
 
     // Body
@@ -1058,7 +1058,7 @@ function renderSurvey() {
       // Importance
       html += '<div class="rating-group">';
       html += '<div class="rating-group__header">';
-      html += '<span class="rating-group__label">重要度</span>';
+      html += '<span class="rating-group__label">重要性</span>';
       html += '<span class="rating-group__value rating-group__value--default" id="imp-val-' + key + '">3.0</span>';
       html += '</div>';
       html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
@@ -1069,7 +1069,7 @@ function renderSurvey() {
       // Urgency
       html += '<div class="rating-group">';
       html += '<div class="rating-group__header">';
-      html += '<span class="rating-group__label">紧迫度</span>';
+      html += '<span class="rating-group__label">紧迫性</span>';
       html += '<span class="rating-group__value rating-group__value--default" id="urg-val-' + key + '">3.0</span>';
       html += '</div>';
       html += '<input type="range" class="rating-slider rating-slider--default" min="0.5" max="5" step="0.5" value="3"';
